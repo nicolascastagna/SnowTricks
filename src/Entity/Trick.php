@@ -30,28 +30,28 @@ class Trick
 
     #[ORM\ManyToOne(inversedBy: 'tricks')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user_id = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'tricks')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Category $category_id = null;
+    private ?Category $category = null;
 
     /**
      * @var Collection<int, Picture>
      */
-    #[ORM\OneToMany(targetEntity: Picture::class, mappedBy: 'trick_id', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Picture::class, mappedBy: 'trick', orphanRemoval: true)]
     private Collection $pictures;
 
     /**
      * @var Collection<int, Video>
      */
-    #[ORM\OneToMany(targetEntity: Video::class, mappedBy: 'trick_id', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Video::class, mappedBy: 'trick', orphanRemoval: true)]
     private Collection $videos;
 
     /**
      * @var Collection<int, Comment>
      */
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'trick_id')]
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'trick')]
     private Collection $comments;
 
     public function __construct()
@@ -114,26 +114,26 @@ class Trick
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): static
+    public function setUser(?User $user): static
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getCategoryId(): ?Category
+    public function getCategory(): ?Category
     {
-        return $this->category_id;
+        return $this->category;
     }
 
-    public function setCategoryId(?Category $category_id): static
+    public function setCategory(?Category $category): static
     {
-        $this->category_id = $category_id;
+        $this->category = $category;
 
         return $this;
     }
@@ -150,7 +150,7 @@ class Trick
     {
         if (!$this->pictures->contains($picture)) {
             $this->pictures->add($picture);
-            $picture->setTrickId($this);
+            $picture->setTrick($this);
         }
 
         return $this;
@@ -160,8 +160,8 @@ class Trick
     {
         if ($this->pictures->removeElement($picture)) {
             // set the owning side to null (unless already changed)
-            if ($picture->getTrickId() === $this) {
-                $picture->setTrickId(null);
+            if ($picture->getTrick() === $this) {
+                $picture->setTrick(null);
             }
         }
 
@@ -180,7 +180,7 @@ class Trick
     {
         if (!$this->videos->contains($video)) {
             $this->videos->add($video);
-            $video->setTrickId($this);
+            $video->setTrick($this);
         }
 
         return $this;
@@ -190,8 +190,8 @@ class Trick
     {
         if ($this->videos->removeElement($video)) {
             // set the owning side to null (unless already changed)
-            if ($video->getTrickId() === $this) {
-                $video->setTrickId(null);
+            if ($video->getTrick() === $this) {
+                $video->setTrick(null);
             }
         }
 
@@ -210,7 +210,7 @@ class Trick
     {
         if (!$this->comments->contains($comment)) {
             $this->comments->add($comment);
-            $comment->setTrickId($this);
+            $comment->setTrick($this);
         }
 
         return $this;
@@ -220,8 +220,8 @@ class Trick
     {
         if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($comment->getTrickId() === $this) {
-                $comment->setTrickId(null);
+            if ($comment->getTrick() === $this) {
+                $comment->setTrick(null);
             }
         }
 

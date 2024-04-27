@@ -28,19 +28,19 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $token = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: Types::JSON)]
     private array $role = [];
 
     /**
      * @var Collection<int, Trick>
      */
-    #[ORM\OneToMany(targetEntity: Trick::class, mappedBy: 'user_id', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Trick::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $tricks;
 
     /**
      * @var Collection<int, Comment>
      */
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user_id', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $comments;
 
     public function __construct()
@@ -104,7 +104,10 @@ class User
 
     public function getRole(): array
     {
-        return $this->role;
+        $role = $this->role;
+        $role[] = 'ROLE_USER';
+
+        return $role;
     }
 
     public function setRole(array $role): static
@@ -112,6 +115,11 @@ class User
         $this->role = $role;
 
         return $this;
+    }
+
+    public function isAdmin()
+    {
+        return in_array('ROLE_ADMIN', $this->getRole());
     }
 
     /**
@@ -126,7 +134,7 @@ class User
     {
         if (!$this->tricks->contains($trick)) {
             $this->tricks->add($trick);
-            $trick->setUserId($this);
+            $trick->setUser($this);
         }
 
         return $this;
@@ -136,8 +144,8 @@ class User
     {
         if ($this->tricks->removeElement($trick)) {
             // set the owning side to null (unless already changed)
-            if ($trick->getUserId() === $this) {
-                $trick->setUserId(null);
+            if ($trick->getUser() === $this) {
+                $trick->setUser(null);
             }
         }
 
@@ -156,7 +164,7 @@ class User
     {
         if (!$this->comments->contains($comment)) {
             $this->comments->add($comment);
-            $comment->setUserId($this);
+            $comment->setUser($this);
         }
 
         return $this;
@@ -166,8 +174,8 @@ class User
     {
         if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($comment->getUserId() === $this) {
-                $comment->setUserId(null);
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
             }
         }
 

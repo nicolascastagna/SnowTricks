@@ -21,7 +21,7 @@ class Category
     /**
      * @var Collection<int, Trick>
      */
-    #[ORM\OneToMany(targetEntity: Trick::class, mappedBy: 'category_id', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Trick::class, mappedBy: 'category', orphanRemoval: true)]
     private Collection $tricks;
 
     public function __construct()
@@ -58,7 +58,7 @@ class Category
     {
         if (!$this->tricks->contains($trick)) {
             $this->tricks->add($trick);
-            $trick->setCategoryId($this);
+            $trick->setCategory($this);
         }
 
         return $this;
@@ -68,8 +68,8 @@ class Category
     {
         if ($this->tricks->removeElement($trick)) {
             // set the owning side to null (unless already changed)
-            if ($trick->getCategoryId() === $this) {
-                $trick->setCategoryId(null);
+            if ($trick->getCategory() === $this) {
+                $trick->setCategory(null);
             }
         }
 
