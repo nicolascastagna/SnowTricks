@@ -27,4 +27,17 @@ class EmailController extends AbstractController
 
         return new Response('Test email sent!');
     }
+
+    public function sendPasswordResetEmail(string $recipientEmail, string $resetLink, MailerInterface $mailer): Response
+    {
+        $email = (new Email())
+            ->from('your_email@example.com')
+            ->to($recipientEmail)
+            ->subject('Réinitialisation de mot de passe')
+            ->html('<p>Veuillez cliquer sur ce lien pour créer votre mot de passe : <a href="' . $resetLink . '">' . $resetLink . '</a></p>');
+
+        $mailer->send($email);
+
+        return new Response("L'email a bien été envoyé. Merci de valider votre compte depuis le lien !");
+    }
 }
