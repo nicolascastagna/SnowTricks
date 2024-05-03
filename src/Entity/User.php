@@ -126,7 +126,7 @@ class User implements
         return $this->token;
     }
 
-    public function setToken(string $token): static
+    public function setToken(?string $token): static
     {
         $this->token = $token;
 

@@ -7,6 +7,7 @@ use App\Form\RegistrationFormType;
 use App\Service\MailerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -61,16 +62,25 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/compte/verification', name: 'app_account_verify')]
+    #[Route('/compte/verification/{token}/{id<\d+>}', name: 'app_account_verify', methods: [Request::METHOD_GET])]
     public function accountVerify(
-        Request $request,
-        UserPasswordHasherInterface $userPasswordHasher,
         EntityManagerInterface $entityManager,
-        MailerService $mailerService,
-        TokenGeneratorInterface $tokenGeneratorInterface,
         string $token,
         User $user
     ): Response {
-        dd($token);
+        if ($user->getToken() !== $token) {
+            throw new AccessDeniedException('Vous n\'avez pas accès à cette page.');
+        }
+        if ($user->getToken() === null) {
+            throw new AccessDeniedException('Vous n\'avez pas accès à cette page.');
+        }
+
+        $user->setVerified(true);
+        $user->setToken(null);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Votre compte a bien été activé, vous pouvez maintenant vous connectez.');
+
+        return $this->redirectToRoute('app_login');
     }
 }
