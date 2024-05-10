@@ -54,6 +54,9 @@ class Trick
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'trick')]
     private Collection $comments;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $mainImage = null;
+
     public function __construct()
     {
         $this->pictures = new ArrayCollection();
@@ -76,6 +79,11 @@ class Trick
         $this->name = $name;
 
         return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return mb_strtolower(str_replace(' ', '_', $this->name));
     }
 
     public function getDescription(): ?string
@@ -224,6 +232,18 @@ class Trick
                 $comment->setTrick(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMainImage(): ?string
+    {
+        return $this->mainImage;
+    }
+
+    public function setMainImage(?string $mainImage): static
+    {
+        $this->mainImage = $mainImage;
 
         return $this;
     }

@@ -1,0 +1,17 @@
+{% block navbar %}
+	<header class="menu-wrapper">
+		<div class="grid-container">
+			<div class="nav">
+				<nav>
+					<a class="link-menu" href="{{ path('homepage') }}">Accueil</a>
+					<a class="link-menu" href="#">Tricks</a>
+					<a class="link-menu" href="#">Profil</a>
+					<a class="link-menu" href="#">Utilisateurs</a>
+					<a class="link-menu" href="{{ path('app_register') }}">S'enregistrer</a>
+					<a class="link-menu" href="{{ path('app_login') }}">Se connecter</a>
+					<a class="link-menu" href="{{ path('homepage') }}">Se déconnecter</a>
+				</nav>
+			</div>
+		</div>
+	</header>
+{% endblock %}
