@@ -4,17 +4,26 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Inscription</h1>
+	<section class="wrapper-inputs register">
+		<h1>Inscription</h1>
 
-	{{ form_errors(registrationForm) }}
-
-	{{ form_start(registrationForm) }}
-	{{ form_row(registrationForm.username) }}
-	{{ form_row(registrationForm.email) }}
-	{{ form_row(registrationForm.plainPassword, {
-            label: 'Mot de passe'
-        }) }}
-
-	<button type="submit" class="btn">S'inscrire</button>
-	{{ form_end(registrationForm) }}
+		{{ form_start(registrationForm) }}
+		<div class="input-container">
+			{{ form_row(registrationForm.username) }}
+		</div>
+		<div class="input-container">
+			{{ form_row(registrationForm.email) }}
+		</div>
+		<div class="input-container">
+			{{ form_row(registrationForm.plainPassword, {
+                label: 'Mot de passe'
+            }) }}
+		</div>
+		<p>
+			{{ form_errors(registrationForm) }}
+		</p>
+		{% include '_partials/_flash.html.twig' %}
+		<button type="submit" class="btn btn-primary">S'inscrire</button>
+		{{ form_end(registrationForm) }}
+	</section>
 {% endblock %}

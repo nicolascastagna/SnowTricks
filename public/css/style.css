@@ -1,0 +1,144 @@
+@import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+:root {
+    --primary: #e1ad01;
+    --secondary: #095228;
+    --title: #211000;
+    --content: #707070;
+    --background-color-footer: #f5f5f5;
+    --font-title: "Libre Baskerville", serif;
+    --font-content: "Roboto", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: var(--font-title);
+}
+
+p,
+a,
+li,
+.form-label {
+    font-family: var(--font-content);
+}
+
+body {
+    margin: auto;
+}
+
+section {
+    min-height: 90vh;
+}
+
+.grid-container {
+    max-width: 1280px;
+    margin: auto;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.title {
+    padding-left: 10px;
+    width: 90%;
+}
+
+/* Contact */
+.wrapper-inputs {
+    max-width: 100%;
+    padding: 20px;
+}
+
+.wrapper-inputs form {
+    margin-bottom: 65px;
+}
+
+.wrapper-inputs button {
+    float: right;
+}
+
+.input-container {
+    margin-bottom: 20px;
+}
+
+.input-container input,
+.input-container textarea {
+    margin-top: 10px;
+}
+
+.input-container textarea {
+    height: 100px;
+    margin-bottom: 15px;
+    resize: none;
+}
+
+.form-control,
+.register input {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    font-size: 14px;
+}
+
+.btn {
+    padding: 12px 22px;
+    background-color: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    font-family: var(--font-content);
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: var(--secondary);
+}
+
+.wrapper-inputs form input[type="text"]:focus,
+.wrapper-inputs form input[type="email"]:focus,
+.wrapper-inputs form input[type="password"]:focus,
+.wrapper-inputs form textarea:focus,
+.wrapper-inputs form input[type="text"]:hover,
+.wrapper-inputs form input[type="email"]:hover,
+.wrapper-inputs form input[type="password"]:hover,
+.wrapper-inputs form textarea:hover,
+.wrapper-add-comment form textarea:focus,
+.wrapper-add-comment textarea:hover {
+    border-color: var(--primary);
+    border-width: 2px;
+    box-shadow: 0 0 5px rgba(var(--primary), 0.5);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.input-container,
+.btn {
+    animation: fadeInUp 0.5s ease-in-out;
+}
+
+@media all and (min-width: 1024px) {
+    .wrapper-inputs {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+}
