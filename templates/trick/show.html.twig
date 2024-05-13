@@ -4,30 +4,59 @@
 {% endblock %}
 
 {% block body %}
-	<section>
-		<div class="container-trick">
-			<div class="trick-media">
-				<img src="{{ asset('assets/trick/' ~ trick.mainImage) }}" alt="{{ trick.name }}">
+	<section class="grid-container">
+		<div class="container-trick-detail">
+			<div class="trick-media-detail">
+				<img src="{{ asset('assets/trick/' ~ trick.mainImage | default('image-placeholder.jpg')) }}" alt="{{ trick.name }}">
 			</div>
-			<div class="trick-info">
+			<div class="trick-info-detail">
 				<h2>{{ trick.name }}</h2>
 			</div>
-			<div class="trick-actions">
-				<a href="#">
-					<i class="fas fa-pencil-alt"></i>
-				</a>
-				<a href="#">
-					<i class="fa fa-trash-o"></i>
-				</a>
-			</div>
+			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+				<div class="card-actions trick-actions-detail">
+					<a href="#">
+						<i class="fas fa-pencil-alt"></i>
+					</a>
+					<a href="#">
+						<i class="fa fa-trash-o"></i>
+					</a>
+				</div>
+			{% endif %}
 		</div>
-		<div class="container-infos">
+		<div class="container-trick-media">
+			{% if pictures is not empty %}
+				{% for picture in pictures %}
+					<div class="list-pictures">
+						<img src="{{ asset('assets/trick/' ~ picture.name) }}" alt="{{ trick.name }}">
+					</div>
+				{% endfor %}
+			{% endif %}
+			{% if videos is not empty %}
+				{% for video in videos %}
+					<div class="list-pictures">
+						<iframe class="trick-media" width="400" height="350" src="https://www.youtube.com/embed/cpa_8q1m47E" encrypted-media; gyroscope; allowfullscreen></iframe>
+					</div>
+				{% endfor %}
+			{% endif %}
+		</div>
+		<div class=" container-infos-detail">
 			<p>{{ trick.description }}</p>
-			<div>
-				<p>Créé le
+			<p>Créé par
+				{{ user }}</p>
+			<div class="infos-date">
+				<span>Créé le
 					{{ trick.creationDate|date('d/m/Y') }}
 					à
-					{{ trick.creationDate|date('H:i:s') }}</p>
+					{{ trick.creationDate|date('H:i:s') }}</span>
+				{% if trick.category is not empty %}
+					<span>{{ category.name }}</span>
+				{% endif %}
+				{% if trick.updateDate is not empty %}
+					<span>Modifié le
+						{{ trick.creationDate|date('d/m/Y') }}
+						à
+						{{ trick.creationDate|date('H:i:s') }}</span>
+				{% endif %}
 			</div>
 		</div>
 		<div>

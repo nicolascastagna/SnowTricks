@@ -1,12 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription
+{% block title %}Page d'accueil
 {% endblock %}
 
 {% block body %}
-	<main>Bannière
+	<main>
+		<div class="hero-image" style="background-image: url('{{ asset('assets/hero/mountain-snow.jpg') }}');">
+			<div class="hero-text">
+				<h2>Plongez dans l'univers du snowboard et partagez vos expériences avec des passionnés comme vous !</h2>
+			</div>
+		</div>
 		{% include 'trick/index.html.twig' %}
 	</main>
-
 
 {% endblock %}

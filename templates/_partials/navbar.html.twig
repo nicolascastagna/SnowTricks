@@ -1,16 +1,30 @@
 {% block navbar %}
 	<header class="menu-wrapper">
 		<div class="grid-container">
-			<div class="nav">
-				<nav>
-					<a class="link-menu" href="{{ path('homepage') }}">Accueil</a>
-					<a class="link-menu" href="#">Tricks</a>
-					<a class="link-menu" href="#">Profil</a>
-					<a class="link-menu" href="#">Utilisateurs</a>
-					<a class="link-menu" href="{{ path('app_register') }}">S'enregistrer</a>
-					<a class="link-menu" href="{{ path('app_login') }}">Se connecter</a>
-					<a class="link-menu" href="{{ path('homepage') }}">Se déconnecter</a>
-				</nav>
+			<div class="group-menus">
+				<div class="logo">
+					<a href="{{ path('homepage') }}">
+						<img src="{{ asset('assets/icon/logo-snowtricks.png') }}" alt="Logo SnowTricks">
+					</a>
+				</div>
+				<input id="toggle" type="checkbox"/>
+				<label for="toggle" class="hamburger" aria-label="Menu">
+					<span class="top-bun"></span>
+					<span class="meat"></span>
+					<span class="bottom-bun"></span>
+				</label>
+				<div class="nav">
+					<nav>
+						<a class="link-menu {% if app.request.attributes.get('_route') == 'homepage' %}active{% endif %}" href="{{ path('homepage') }}">Accueil</a>
+						<a class="link-menu {% if app.request.attributes.get('_route') == '' %}active{% endif %}" href="#">Tricks</a>
+						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+							<a class="link-menu {% if app.request.attributes.get('_route') == 'app_logout' %}active{% endif %}" href="{{ path('app_logout') }}">Se déconnecter</a>
+						{% else %}
+							<a class="link-menu {% if app.request.attributes.get('_route') == 'app_register' %}active{% endif %}" href="{{ path('app_register') }}">S'enregistrer</a>
+							<a class="link-menu {% if app.request.attributes.get('_route') == 'app_login' %}active{% endif %}" href="{{ path('app_login') }}">Se connecter</a>
+						{% endif %}
+					</nav>
+				</div>
 			</div>
 		</div>
 	</header>

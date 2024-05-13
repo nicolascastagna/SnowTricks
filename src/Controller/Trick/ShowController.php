@@ -4,6 +4,7 @@ namespace App\Controller\Trick;
 
 use App\Entity\Trick;
 use App\Repository\TrickRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,9 +32,19 @@ class ShowController extends AbstractController
             throw $this->createNotFoundException('Le trick n\'a pas été trouvé.');
         }
 
+        $category = $trick->getCategory();
+        $pictures = $trick->getPictures();
+        $videos = $trick->getVideos();
+        $user = $trick->getUser()->getUsername();
+
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
-            'slug' => $slug
+            'slug' => $slug,
+            'category' => $category,
+            'pictures' => $pictures,
+            'videos' => $videos,
+            'user' => $user,
+
         ]);
     }
 }
