@@ -1,0 +1,37 @@
+{% block content %}
+	<section class="grid-container">
+		<div class="container-cards">
+			<h2 class="title">Listes des Tricks</h2>
+			<div class="container-tricks">
+				{% for trick in tricks %}
+					<div class="card-trick">
+						<div class="card-header">
+							<img src="/assets/trick/{{ trick.mainImage | default('image-placeholder.jpg') }}" alt="{{ trick.name }}">
+						</div>
+						<div class='wrapper-content-actions'>
+							<div class="card-content">
+								<h4>
+									<a href="{{ path('app_trick_show', {'id': trick.id ,'slug': trick.getSlug()}) }}">
+										{{ trick.name }}
+									</a>
+								</h4>
+							</div>
+							<div class="card-actions">
+								<a href="#">
+									<i class="fas fa-pencil-alt"></i>
+								</a>
+								<a href="#">
+									<i class="fa fa-trash-o"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+				{% if tricks is empty %}
+					<p>Pas de trick disponible !</p>
+				{% endif %}
+			</div>
+		</div>
+	</section>
+
+{% endblock %}
