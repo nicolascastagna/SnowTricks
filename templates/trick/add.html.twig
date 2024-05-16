@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un Trick
+{% endblock %}
+
+{% block body %}
+	<section class="wrapper-inputs register">
+		<h1>Ajouter un trick</h1>
+
+		{{ form_start(form) }}
+
+		{{ form_row(form.name) }}
+		{{ form_row(form.description) }}
+		{{ form_row(form.category) }}
+		{{ form_row(form.mainImage) }}
+		{{ form_row(form.pictures) }}
+		{{ form_row(form.videos) }}
+
+		<button type="submit" class="btn btn-primary">Enregistrer</button>
+
+		{{ form_end(form) }}
+	</section>
+{% endblock %}
