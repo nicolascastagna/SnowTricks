@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\Trick;
-use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -14,6 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class TrickFormType extends AbstractType
 {
@@ -22,44 +22,51 @@ class TrickFormType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'required' => true,
-                'label' => 'Nom'
+                'label' => false,
             ])
             ->add('description', TextareaType::class, [
                 'required' => true,
-                'label' => 'Description',
+                'label' => false,
             ])
             ->add('category', EntityType::class, [
                 'required' => false,
-                'label' => 'Catégorie',
+                'label' => false,
                 'class' => Category::class,
                 'choice_label' => 'name',
-                'multiple' => true,
+                'multiple' => false,
             ])
             ->add('mainImage', FileType::class, [
-                'label' => 'Définir l\'image principale',
+                'label' => false,
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
-                    new Image(),
+                    new Image([
+                        'maxSize' => '5M',
+                        'maxSizeMessage' => 'La taille de l\'image ne doit pas dépasser 5 Mo.'
+                    ]),
                 ],
             ])
-            ->add('pictures', CollectionType::class, [
-                'entry_type' => PictureFormType::class,
-                'prototype' => true,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
+            ->add('pictures', FileType::class, [
+                'label' => false,
+                'multiple' => true,
+                'mapped' => false,
                 'required' => false,
-                'label' => 'Ajouter des images',
             ])
             ->add('videos', CollectionType::class, [
-                'entry_type' => VideoFormType::class,
+                'entry_type' => TextType::class,
+                'entry_options' => [
+                    'attr' => [
+                        'placeholder' => 'Exemple : https://www.youtube.com/watch?v=LyfFuv4_wjQ&ab',
+                        'title' => 'URL YouTube ou Dailymotion'
+                    ],
+                ],
+                'label' => false,
                 'prototype' => true,
                 'allow_add' => true,
-                'allow_delete' => true,
+                'allow_delete' => false,
                 'by_reference' => false,
+                'mapped' => false,
                 'required' => false,
-                'label' => "Ajouter des videos",
             ]);
     }
 

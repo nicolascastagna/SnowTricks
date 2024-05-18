@@ -5,19 +5,34 @@
 
 {% block body %}
 	<section class="wrapper-inputs register">
-		<h1>Ajouter un trick</h1>
-
 		{{ form_start(form) }}
-
+		<h3>Ajouter un nom</h3>
 		{{ form_row(form.name) }}
-		{{ form_row(form.description) }}
-		{{ form_row(form.category) }}
+		<h3>Ajouter une description</h3>
+		{{ form_row(form.description, {'attr': {'class': 'form-control'}}) }}
+		{{ form_errors(form.description) }}
+		<h3>Ajouter une catégorie</h3>
+		{{ form_row(form.category, {'attr': {'class': 'form-control'}}) }}
+		{{ form_errors(form.category) }}
+		<h3>Ajouter une image principale</h3>
 		{{ form_row(form.mainImage) }}
+		{{ form_errors(form.mainImage) }}
+		<h3>Ajouter des images</h3>
 		{{ form_row(form.pictures) }}
-		{{ form_row(form.videos) }}
+		{{ form_errors(form.pictures) }}
 
-		<button type="submit" class="btn btn-primary">Enregistrer</button>
+		<h3>Ajouter des vidéos</h3>
+		<div id='videos-list' data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
+			{{ form_row(form.videos, {'attr': {'class': 'video-input'}}) }}
+			{{ form_errors(form.videos) }}
+		</div>
+		<button type="button" id="add-video" class="btn">Ajouter une vidéo</button>
 
+		{{ form_rest(form) }}
+		<p>
+			{{ form_errors(form) }}
+		</p>
+		<button type="submit" class="btn">Enregistrer</button>
 		{{ form_end(form) }}
 	</section>
 {% endblock %}
