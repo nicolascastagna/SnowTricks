@@ -388,6 +388,11 @@ nav a:hover:before {
     resize: none;
 }
 
+.trick-textarea {
+    resize: vertical;
+    min-height: 200px;
+}
+
 .form-control,
 .register input {
     width: 95%;
@@ -411,6 +416,14 @@ nav a:hover:before {
     font-weight: 500;
     letter-spacing: 1.2px;
     text-decoration: none;
+}
+
+.btn-add {
+    float: unset !important;
+    margin-top: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    display: flex;
 }
 
 .btn:hover {

@@ -9,7 +9,7 @@
 		<h3>Ajouter un nom</h3>
 		{{ form_row(form.name) }}
 		<h3>Ajouter une description</h3>
-		{{ form_row(form.description, {'attr': {'class': 'form-control'}}) }}
+		{{ form_row(form.description, {'attr': {'class': 'form-control trick-textarea'}}) }}
 		{{ form_errors(form.description) }}
 		<h3>Ajouter une catégorie</h3>
 		{{ form_row(form.category, {'attr': {'class': 'form-control'}}) }}
@@ -26,7 +26,7 @@
 			{{ form_row(form.videos, {'attr': {'class': 'video-input'}}) }}
 			{{ form_errors(form.videos) }}
 		</div>
-		<button type="button" id="add-video" class="btn">Ajouter une vidéo</button>
+		<button type="button" id="add-video" class="btn btn-add">Ajouter une vidéo</button>
 
 		{{ form_rest(form) }}
 		<p>

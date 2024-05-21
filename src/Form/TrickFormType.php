@@ -13,7 +13,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\Image;
-use Symfony\Component\Validator\Constraints\Regex;
 
 class TrickFormType extends AbstractType
 {
@@ -61,7 +60,6 @@ class TrickFormType extends AbstractType
                     ],
                 ],
                 'label' => false,
-                'prototype' => true,
                 'allow_add' => true,
                 'allow_delete' => false,
                 'by_reference' => false,
