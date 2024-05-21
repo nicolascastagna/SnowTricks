@@ -2,6 +2,7 @@
 	<section class="grid-container">
 		<div class="container-cards">
 			<h2 class="title">Listes des Tricks</h2>
+			{% include '_partials/_flash.html.twig' %}
 			<div class="container-tricks">
 				{% for trick in tricks %}
 					<div class="card-trick">
