@@ -67,13 +67,14 @@
 			</div>
 		</div>
 		<div>
-			<div class="wrapper-add-comment">
-				<form action="" method="post">
-					<div class="input-container">
-						<textarea placeholder="Ecrivez un commentaire..." name="content" id="content" required></textarea>
-						<button class="btn-primary btn" type="submit">Laisser un commentaire</button>
-					</div>
-				</form>
+			<div class="wrapper-add-comment" id="comment-form">
+				{{ form_start(commentForm) }}
+				<div class="input-container">
+					{{ form_widget(commentForm.content, {'attr': {'class': 'textarea-comment'}}) }}
+					<button class="btn-primary btn" type="submit">Laisser un commentaire</button>
+					{% include '_partials/_flash.html.twig' %}
+				</div>
+				{{ form_end(commentForm) }}
 			</div>
 			{% include 'comment/index.html.twig' %}
 		</div>

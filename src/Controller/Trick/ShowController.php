@@ -2,8 +2,11 @@
 
 namespace App\Controller\Trick;
 
+use App\Entity\Comment;
 use App\Entity\Trick;
+use App\Form\CommentFormType;
 use App\Repository\TrickRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,19 +14,21 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ShowController extends AbstractController
 {
-
-    public function __construct(private readonly TrickRepository $trickRepository)
-    {
+    public function __construct(
+        private readonly TrickRepository $trickRepository,
+        private readonly EntityManagerInterface $entityManager
+    ) {
     }
 
-    #[Route('/trick/{id}/{slug}', name: 'app_trick_show', methods: [Request::METHOD_GET])]
+    #[Route('/trick/{id}/{slug}', name: 'app_trick_show', methods: [Request::METHOD_GET, Request::METHOD_POST])]
     /**
      * show
      *
+     * @param  Request $request
      * @param  Trick $trick
      * @return Response
      */
-    public function show(Trick $trick): Response
+    public function show(Request $request, Trick $trick): Response
     {
         $slug = $trick->getSlug();
 
@@ -37,6 +42,27 @@ class ShowController extends AbstractController
         $user = $trick->getUser()->getUsername();
         $comments = $trick->getComments();
 
+        $comment = new Comment();
+        $commentForm = $this->createForm(CommentFormType::class, $comment);
+        $commentForm->handleRequest($request);
+
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+            $comment->setTrick($trick);
+            $comment->setUser($this->getUser());
+            $comment->setCommentDate(new \DateTime());
+
+            $this->entityManager->persist($comment);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'Votre commentaire a bien été publié !');
+
+            return $this->redirectToRoute('app_trick_show', [
+                'id' => $trick->getId(),
+                'slug' => $trick->getSlug(),
+                '_fragment' => 'comment-form',
+            ]);
+        }
+
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
             'slug' => $slug,
@@ -44,8 +70,8 @@ class ShowController extends AbstractController
             'pictures' => $pictures,
             'videos' => $videos,
             'user' => $user,
-            'comments' => $comments
-
+            'comments' => $comments,
+            'commentForm' => $commentForm->createView()
         ]);
     }
 }
