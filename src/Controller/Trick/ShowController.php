@@ -35,6 +35,7 @@ class ShowController extends AbstractController
         $pictures = $trick->getPictures();
         $videos = $trick->getVideos();
         $user = $trick->getUser()->getUsername();
+        $comments = $trick->getComments();
 
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
@@ -43,6 +44,7 @@ class ShowController extends AbstractController
             'pictures' => $pictures,
             'videos' => $videos,
             'user' => $user,
+            'comments' => $comments
 
         ]);
     }
