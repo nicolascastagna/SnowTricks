@@ -4,7 +4,6 @@ namespace App\Controller\Trick;
 
 use App\Entity\Trick;
 use App\Repository\TrickRepository;
-use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

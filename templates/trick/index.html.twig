@@ -2,11 +2,19 @@
 	<section class="grid-container">
 		<div class="container-cards">
 			<h2 class="title">Listes des Tricks</h2>
+			{% include '_partials/_flash.html.twig' %}
 			<div class="container-tricks">
 				{% for trick in tricks %}
 					<div class="card-trick">
 						<div class="card-header">
-							<img src="/assets/trick/{{ trick.mainImage | default('image-placeholder.jpg') }}" alt="{{ trick.name }}">
+							{% if trick.mainImage %}
+								{% set mainImage = trick.mainImage %}
+							{% elseif trick.pictures|length > 0 %}
+								{% set mainImage = trick.pictures|first.name %}
+							{% else %}
+								{% set mainImage = 'image-placeholder.jpg' %}
+							{% endif %}
+							<img src="{{ asset('assets/trick/' ~ mainImage) }}" alt="{{ trick.name }}">
 						</div>
 						<div class='wrapper-content-actions'>
 							<div class="card-content">

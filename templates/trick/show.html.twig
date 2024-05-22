@@ -7,7 +7,14 @@
 	<section class="grid-container">
 		<div class="container-trick-detail">
 			<div class="trick-media-detail">
-				<img src="{{ asset('assets/trick/' ~ trick.mainImage | default('image-placeholder.jpg')) }}" alt="{{ trick.name }}">
+				{% if trick.mainImage %}
+					{% set mainImage = trick.mainImage %}
+				{% elseif trick.pictures|length > 0 %}
+					{% set mainImage = trick.pictures|first.name %}
+				{% else %}
+					{% set mainImage = 'image-placeholder.jpg' %}
+				{% endif %}
+				<img src="{{ asset('assets/trick/' ~ mainImage) }}" alt="{{ trick.name }}">
 			</div>
 			<div class="trick-info-detail">
 				<h2>{{ trick.name }}</h2>
@@ -34,12 +41,12 @@
 			{% if videos is not empty %}
 				{% for video in videos %}
 					<div class="list-pictures">
-						<iframe class="trick-media" width="400" height="350" src="https://www.youtube.com/embed/cpa_8q1m47E" encrypted-media; gyroscope; allowfullscreen></iframe>
+						<iframe class="trick-media" width="400" height="350" src="{{video.name}}" encrypted-media; gyroscope; allowfullscreen></iframe>
 					</div>
 				{% endfor %}
 			{% endif %}
 		</div>
-		<div class=" container-infos-detail">
+		<div class="container-infos-detail">
 			<p>{{ trick.description }}</p>
 			<p>Créé par
 				{{ user }}</p>
@@ -53,9 +60,9 @@
 				{% endif %}
 				{% if trick.updateDate is not empty %}
 					<span>Modifié le
-						{{ trick.creationDate|date('d/m/Y') }}
+						{{ trick.updateDate|date('d/m/Y') }}
 						à
-						{{ trick.creationDate|date('H:i:s') }}</span>
+						{{ trick.updateDate|date('H:i:s') }}</span>
 				{% endif %}
 			</div>
 		</div>
