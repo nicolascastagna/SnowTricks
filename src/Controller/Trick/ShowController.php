@@ -5,6 +5,7 @@ namespace App\Controller\Trick;
 use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Form\CommentFormType;
+use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,6 +17,7 @@ class ShowController extends AbstractController
 {
     public function __construct(
         private readonly TrickRepository $trickRepository,
+        private readonly CommentRepository $commentRepository,
         private readonly EntityManagerInterface $entityManager
     ) {
     }
@@ -40,7 +42,12 @@ class ShowController extends AbstractController
         $pictures = $trick->getPictures();
         $videos = $trick->getVideos();
         $user = $trick->getUser()->getUsername();
-        $comments = $trick->getComments();
+
+        $page = $request->query->getInt('page', 1);
+        $limit = 10;
+
+        $comments = $this->commentRepository->findPaginatedComments($trick->getId(), $page, $limit);
+        $totalComments = $this->commentRepository->countComments($trick->getId());
 
         $comment = new Comment();
         $commentForm = $this->createForm(CommentFormType::class, $comment);
@@ -59,7 +66,6 @@ class ShowController extends AbstractController
             return $this->redirectToRoute('app_trick_show', [
                 'id' => $trick->getId(),
                 'slug' => $trick->getSlug(),
-                '_fragment' => 'comment-form',
             ]);
         }
 
@@ -71,7 +77,10 @@ class ShowController extends AbstractController
             'videos' => $videos,
             'user' => $user,
             'comments' => $comments,
-            'commentForm' => $commentForm->createView()
+            'totalComments' => $totalComments,
+            'limit' => $limit,
+            'currentPage' => $page,
+            'commentForm' => $commentForm->createView(),
         ]);
     }
 }

@@ -2,8 +2,7 @@
 	<div class="comments-list">
 		{% if comments %}
 			<div class="card-comment">
-				{% set sortedComments = comments|sort((a, b) => b.commentDate <=> a.commentDate) %}
-				{% for comment in sortedComments %}
+				{% for comment in comments %}
 					<h4>{{ comment.user.username }}</h4>
 					<p class="comment-date">Le
 						{{ comment.commentDate|date('d/m/Y') }}</p>
@@ -12,6 +11,24 @@
 			</div>
 		{% else %}
 			<p class="no-comments">Aucun commentaire</p>
+		{% endif %}
+	</div>
+	<div class="pagination">
+		{% if comments %}
+			{% set totalPages = (totalComments / limit)|round(0, 'ceil') %}
+			{% if currentPage > 1 %}
+				<a href="{{ path('app_trick_show', {id: trick.id, slug: slug, page: currentPage - 1}) }}#comment-form">&laquo; Précédent</a>
+			{% endif %}
+			{% for i in 1..totalPages %}
+				{% if i == currentPage %}
+					<a href="{{ path('app_trick_show', {id: trick.id, slug: slug, page: i}) }}#comment-form" class="active">{{ i }}</a>
+				{% else %}
+					<a href="{{ path('app_trick_show', {id: trick.id, slug: slug, page: i}) }}#comment-form">{{ i }}</a>
+				{% endif %}
+			{% endfor %}
+			{% if currentPage < totalPages %}
+				<a href="{{ path('app_trick_show', {id: trick.id, slug: slug, page: currentPage + 1}) }}#comment-form">Suivant &raquo;</a>
+			{% endif %}
 		{% endif %}
 	</div>
 {% endblock %}
