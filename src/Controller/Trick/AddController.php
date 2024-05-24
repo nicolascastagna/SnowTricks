@@ -64,9 +64,11 @@ class AddController extends AbstractController
             $this->entityManager->persist($trick);
             $this->entityManager->flush();
 
-            $this->addFlash('success', 'Le trick a bien été créé !');
+            $this->addFlash('success', 'Votre trick a bien été créé !');
 
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('homepage', [
+                '_fragment' => 'tricks-container',
+            ]);
         }
 
         return $this->render('trick/add.html.twig', [
