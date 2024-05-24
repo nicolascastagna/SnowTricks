@@ -1,3 +1,4 @@
+// create inputs video
 const addVideoButton = document.getElementById("add-video");
 const videoList = document.getElementById("videos-list");
 
@@ -14,4 +15,21 @@ addVideoButton.addEventListener("click", () => {
     });
 
     videoList.insertAdjacentElement("beforeend", newVideoElement);
+});
+
+// confirmation delete image
+document.addEventListener("DOMContentLoaded", function () {
+    const deleteLinks = document.querySelectorAll(".delete-image");
+
+    deleteLinks.forEach((link) => {
+        link.addEventListener("click", function (event) {
+            event.preventDefault();
+            const confirmation = confirm(
+                "Êtes-vous sûr de vouloir supprimer cette image ?"
+            );
+            if (confirmation) {
+                window.location.href = this.href;
+            }
+        });
+    });
 });
