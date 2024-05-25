@@ -16,10 +16,8 @@
 		{{ form_errors(form.category) }}
 		<h3>Image principale</h3>
 		{{ form_row(form.mainImage) }}
-		{{ form_errors(form.mainImage) }}
 		<h3>Images</h3>
 		{{ form_row(form.pictures) }}
-		{{ form_errors(form.pictures) }}
 
 		<h3>Liens de vidéos</h3>
 		<div id='videos-list' data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">

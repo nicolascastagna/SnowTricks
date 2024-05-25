@@ -33,10 +33,12 @@ class EditController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $trick->setUpdateDate(new \DateTime());
+            $category = $form->get('category')->getData();
+            $this->trickService->handleCategory($category, $trick);
             $mainImage = $form->get('mainImage')->getData();
             $images = $form->get('pictures')->getData();
             $videos = $form->get('videos')->getData();
-            // dd($trick);
+
             if ($mainImage) {
                 $this->trickService->handleMainImage($mainImage, $trick);
             }
@@ -62,27 +64,5 @@ class EditController extends AbstractController
             'form' => $form->createView(),
             'videos' => $video,
         ]);
-    }
-
-    #[Route('/trick/{id}/delete-image/{imageName}', name: 'app_trick_delete_image')]
-    public function deleteImage(Request $request, EntityManagerInterface $entityManager, Trick $trick, $imageName): Response
-    {
-        $image = $this->pictureRepository->findOneBy(['name' => $imageName]);
-        if (!$image) {
-            $this->addFlash('error', 'Image non trouvée.');
-            return $this->redirectToRoute('app_trick_edit', ['id' => $trick->getId()]);
-        }
-
-        $imagePath = $this->getParameter('tricks_directory') . '/' . $image->getName();
-        if (file_exists($imagePath)) {
-            unlink($imagePath);
-        }
-
-        $trick->removePicture($image);
-        $entityManager->remove($image);
-        $entityManager->flush();
-
-        $this->addFlash('success', 'Image supprimée avec succès.');
-        return $this->redirectToRoute('app_trick_edit', ['id' => $trick->getId()]);
     }
 }

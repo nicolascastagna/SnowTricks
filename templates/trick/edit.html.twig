@@ -13,17 +13,24 @@
 		{{ form_errors(form.description) }}
 		<h3>Catégorie</h3>
 		{{ form_row(form.category, {'attr': {'class': 'form-control'}}) }}
-		{{ form_errors(form.category) }}
-		<h3>Image principale</h3>
+		<h3>Image principale
+		</h3>
+		{% if trick.mainImage %}
+			<div class="image-thumbnail">
+				<img src="{{ asset('assets/trick/' ~ trick.mainImage) }}" alt="{{ trick.name }}" class="edit-centered-image">
+				<a href="{{ path('app_trick_remove_image', {'id': trick.id}) }}" class="delete-image">
+					<i class="fa fa-trash-o"></i>
+				</a>
+			</div>
+		{% endif %}
 		{{ form_row(form.mainImage) }}
-		{{ form_errors(form.mainImage) }}
+		<h3>Images</h3>
 		{% if trick.pictures is not empty %}
-			<h3>Images</h3>
 			<div class="existing-images">
 				{% for picture in trick.pictures %}
 					<div class="image-thumbnail">
 						<img src="{{ asset('assets/trick/' ~ picture.name) }}" alt="{{ trick.name }}" class="edit-centered-image">
-						<a href="{{ path('app_trick_delete_image', {'id': trick.id, 'imageName': picture.name}) }}" class="delete-image">
+						<a href="{{ path('app_trick_remove_image', {'id': trick.id, 'imageName': picture.name}) }}" class="delete-image">
 							<i class="fa fa-trash-o"></i>
 						</a>
 					</div>
@@ -31,7 +38,6 @@
 			</div>
 		{% endif %}
 		{{ form_row(form.pictures) }}
-		{{ form_errors(form.pictures) }}
 
 		<h3>Liens de vidéos</h3>
 		<div id='videos-list' data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
@@ -47,6 +53,7 @@
 		<p>
 			{{ form_errors(form) }}
 		</p>
+		{% include '_partials/_flash.html.twig' %}
 		<button type="submit" class="btn">Enregistrer</button>
 		{{ form_end(form) }}
 	</section>

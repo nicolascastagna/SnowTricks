@@ -17,8 +17,7 @@ addVideoButton.addEventListener("click", () => {
     videoList.insertAdjacentElement("beforeend", newVideoElement);
 });
 
-// confirmation delete image
-document.addEventListener("DOMContentLoaded", function () {
+function deleteConfirmationImage() {
     const deleteLinks = document.querySelectorAll(".delete-image");
 
     deleteLinks.forEach((link) => {
@@ -32,4 +31,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
-});
+}
+
+document.addEventListener("DOMContentLoaded", deleteConfirmationImage);
