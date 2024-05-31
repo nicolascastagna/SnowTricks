@@ -15,7 +15,7 @@
 		{{ form_row(form.category, {'attr': {'class': 'form-control'}}) }}
 		<h3>Image principale
 		</h3>
-		{% if trick.mainImage %}
+		{% if trick.mainImage and trick.mainImage != 'image-placeholder.jpg' %}
 			<div class="image-thumbnail">
 				<img src="{{ asset('assets/trick/' ~ trick.mainImage) }}" alt="{{ trick.name }}" class="edit-centered-image">
 				<a href="{{ path('app_trick_remove_image', {'id': trick.id}) }}" class="delete-image">
@@ -40,21 +40,35 @@
 		{{ form_row(form.pictures) }}
 
 		<h3>Liens de vidéos</h3>
-		<div id='videos-list' data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
-			{% for video in videos %}
-				<div class="video-input">
-					<input type="text" name="videos[]" value="{{ video.name }}" class="form-control video-url" placeholder="Exemple : https://www.youtube.com/watch?v=LyfFuv4_wjQ&ab" title="URL YouTube ou Dailymotion">
+		{% if trick.videos is not null %}
+			<div id='videos-list' data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
+				{% for video in form.videos %}
+					<div class="video-input">
+						<div class="trick-media-container">
+							<iframe class="trick-media" src="{{ video.vars.value.name }}" width="100%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+						</div>
+						<div class="edit-media-input">
+							{{ form_row(video.name, {'attr': {'class': 'video-input-edit'}}) }}
+							<div class="card-actions">
+								<button class="btn edit-video-btn" type="button">
+									<i class="fas fa-pencil-alt"></i>
+								</button>
+								<button class="btn delete-video-btn" type="button">
+									<i class="fa fa-trash-o"></i>
+								</button>
+							</div>
+						</div>
+					{% endfor %}
 				</div>
-			{% endfor %}
-		</div>
-		<button type="button" id="add-video" class="btn btn-add">Ajouter une vidéo</button>
+			{% endif %}
+			<button type="button" id="add-video" class="btn btn-add">Ajouter une vidéo</button>
 
-		{{ form_rest(form) }}
-		<p>
-			{{ form_errors(form) }}
-		</p>
-		{% include '_partials/_flash.html.twig' %}
-		<button type="submit" class="btn">Enregistrer</button>
-		{{ form_end(form) }}
-	</section>
-{% endblock %}
+			{{ form_rest(form) }}
+			<p>
+				{{ form_errors(form) }}
+			</p>
+			{% include '_partials/_flash.html.twig' %}
+			<button type="submit" class="btn">Enregistrer</button>
+			{{ form_end(form) }}
+		</section>
+	{% endblock %}

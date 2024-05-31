@@ -7,14 +7,7 @@
 	<section class="grid-container">
 		<div class="container-trick-detail">
 			<div class="trick-media-detail">
-				{% if trick.mainImage %}
-					{% set mainImage = trick.mainImage %}
-				{% elseif trick.pictures|length > 0 %}
-					{% set mainImage = trick.pictures|first.name %}
-				{% else %}
-					{% set mainImage = 'image-placeholder.jpg' %}
-				{% endif %}
-				<img src="{{ asset('assets/trick/' ~ mainImage) }}" alt="{{ trick.name }}">
+				<img src="{{ asset('assets/trick/' ~ trick.mainImage) }}" alt="{{ trick.name }}">
 			</div>
 			<div class="trick-info-detail">
 				<h2>{{ trick.name }}</h2>

@@ -497,6 +497,11 @@ nav a:hover:before {
     color: var(--secondary);
 }
 
+.video-input-edit {
+    margin-bottom: 5px;
+    display: none;
+}
+
 /* Comments */
 .comments-list {
     display: flex;

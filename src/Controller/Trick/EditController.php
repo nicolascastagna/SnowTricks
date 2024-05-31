@@ -27,8 +27,6 @@ class EditController extends AbstractController
     public function edit(Request $request, Trick $trick): Response
     {
         $form = $this->createForm(TrickFormType::class, $trick);
-        $video = $trick->getVideos();
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -37,17 +35,21 @@ class EditController extends AbstractController
             $this->trickService->handleCategory($category, $trick);
             $mainImage = $form->get('mainImage')->getData();
             $images = $form->get('pictures')->getData();
-            $videos = $form->get('videos')->getData();
 
             if ($mainImage) {
                 $this->trickService->handleMainImage($mainImage, $trick);
             }
+
             if ($images) {
                 $this->trickService->handleImages($images, $trick);
             }
-            if ($videos) {
-                $this->trickService->handleVideos($videos, $trick);
+
+            if ($trick->getMainImage() === 'image-placeholder.jpg' && !$trick->getPictures()->isEmpty()) {
+                $trick->setMainImage($trick->getPictures()->first()->getName());
             }
+
+            $this->trickService->handleVideos($trick, $form);
+
             $this->entityManager->persist($trick);
             $this->entityManager->flush();
 
@@ -62,7 +64,6 @@ class EditController extends AbstractController
         return $this->render('trick/edit.html.twig', [
             'trick' => $trick,
             'form' => $form->createView(),
-            'videos' => $video,
         ]);
     }
 }

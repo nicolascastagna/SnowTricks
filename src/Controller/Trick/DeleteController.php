@@ -32,8 +32,18 @@ class DeleteController extends AbstractController
             $trick->removePicture($image);
             $this->entityManager->remove($image);
         } else {
-            $this->deleteImage($trick->getMainImage());
-            $trick->setMainImage(null);
+            if ($trick->getMainImage() !== 'image-placeholder.jpg') {
+                $this->deleteImage($trick->getMainImage());
+                //remove same image
+                foreach ($trick->getPictures() as $picture) {
+                    if ($picture->getName() === $trick->getMainImage()) {
+                        $trick->removePicture($picture);
+                        $this->entityManager->remove($picture);
+                        break;
+                    }
+                }
+                $trick->setMainImage('image-placeholder.jpg');
+            }
         }
 
         $this->entityManager->flush();

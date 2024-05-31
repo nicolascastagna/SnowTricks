@@ -13,6 +13,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Url;
 
 class TrickFormType extends AbstractType
 {
@@ -52,18 +54,11 @@ class TrickFormType extends AbstractType
                 'required' => false,
             ])
             ->add('videos', CollectionType::class, [
-                'entry_type' => TextType::class,
-                'entry_options' => [
-                    'attr' => [
-                        'placeholder' => 'Exemple : https://www.youtube.com/watch?v=LyfFuv4_wjQ&ab',
-                        'title' => 'URL YouTube ou Dailymotion'
-                    ],
-                ],
+                'entry_type' => VideoFormType::class,
                 'label' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-                'mapped' => false,
                 'required' => false,
             ]);
     }

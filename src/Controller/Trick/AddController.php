@@ -49,17 +49,14 @@ class AddController extends AbstractController
 
             $mainImage = $form->get('mainImage')->getData();
             $images = $form->get('pictures')->getData();
-            $videos = $form->get('videos')->getData();
 
-            if ($mainImage) {
-                $this->trickService->handleMainImage($mainImage, $trick);
-            }
+            $this->trickService->handleMainImage($mainImage, $trick);
+
             if ($images) {
                 $this->trickService->handleImages($images, $trick);
             }
-            if ($videos) {
-                $this->trickService->handleVideos($videos, $trick);
-            }
+
+            $this->trickService->handleVideos($trick, $form);
 
             $this->entityManager->persist($trick);
             $this->entityManager->flush();
