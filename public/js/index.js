@@ -46,20 +46,14 @@ document.addEventListener("DOMContentLoaded", function () {
         );
         const videoInputUrl = videoInputDiv.querySelector(".video-input-edit");
 
-        let isDeleted = false;
-
         editButton.addEventListener("click", function () {
             iframeContainer.style.display = "none";
             videoInputUrl.style.display = "block";
         });
 
         deleteButton.addEventListener("click", function () {
-            if (
-                !isDeleted &&
-                confirm("Êtes-vous sûr de vouloir supprimer cette vidéo ?")
-            ) {
+            if (confirm("Êtes-vous sûr de vouloir supprimer cette vidéo ?")) {
                 videoInputDiv.remove();
-                isDeleted = true;
             }
         });
     };
