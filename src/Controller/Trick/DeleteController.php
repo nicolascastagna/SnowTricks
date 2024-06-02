@@ -29,6 +29,9 @@ class DeleteController extends AbstractController
                 return $this->redirectToRoute('app_trick_edit', ['id' => $trick->getId()]);
             }
             $this->deleteImage($image->getName());
+            if ($image->getName() === $trick->getMainImage()) {
+                $trick->setMainImage('image-placeholder.jpg');
+            }
             $trick->removePicture($image);
             $this->entityManager->remove($image);
         } else {
@@ -49,7 +52,10 @@ class DeleteController extends AbstractController
         $this->entityManager->flush();
         $this->addFlash('success', 'Image supprimée avec succès.');
 
-        return $this->redirectToRoute('app_trick_edit', ['id' => $trick->getId()]);
+        return $this->redirectToRoute('app_trick_edit', [
+            '_fragment' => 'existing-images',
+            'id' => $trick->getId()
+        ]);
     }
 
     private function deleteImage(string $imageName): void

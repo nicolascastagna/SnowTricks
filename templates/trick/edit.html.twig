@@ -26,7 +26,7 @@
 		{{ form_row(form.mainImage) }}
 		<h3>Images</h3>
 		{% if trick.pictures is not empty %}
-			<div class="existing-images">
+			<div id="existing-images">
 				{% for picture in trick.pictures %}
 					<div class="image-thumbnail">
 						<img src="{{ asset('assets/trick/' ~ picture.name) }}" alt="{{ trick.name }}" class="edit-centered-image">
@@ -58,17 +58,18 @@
 								</button>
 							</div>
 						</div>
-					{% endfor %}
-				</div>
-			{% endif %}
-			<button type="button" id="add-video" class="btn btn-add">Ajouter une vidéo</button>
+					</div>
+				{% endfor %}
+			</div>
+		{% endif %}
+		<button type="button" id="add-video" class="btn btn-add">Ajouter une vidéo</button>
 
-			{{ form_rest(form) }}
-			<p>
-				{{ form_errors(form) }}
-			</p>
-			{% include '_partials/_flash.html.twig' %}
-			<button type="submit" class="btn">Enregistrer</button>
-			{{ form_end(form) }}
-		</section>
-	{% endblock %}
+		{{ form_rest(form) }}
+		<p>
+			{{ form_errors(form) }}
+		</p>
+		{% include '_partials/_flash.html.twig' %}
+		<button type="submit" class="btn">Enregistrer</button>
+		{{ form_end(form) }}
+	</section>
+{% endblock %}
