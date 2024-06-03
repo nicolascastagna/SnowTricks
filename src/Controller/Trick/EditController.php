@@ -23,7 +23,7 @@ class EditController extends AbstractController
     ) {
     }
 
-    #[Route('/trick/{id}/edit', name: 'app_trick_edit')]
+    #[Route('/trick/{id}/edit', name: 'app_trick_edit', methods: [Request::METHOD_GET, Request::METHOD_POST])]
     public function edit(Request $request, Trick $trick): Response
     {
         $form = $this->createForm(TrickFormType::class, $trick);

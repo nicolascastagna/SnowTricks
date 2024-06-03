@@ -7,6 +7,7 @@ use App\Repository\PictureRepository;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -19,7 +20,7 @@ class DeleteController extends AbstractController
     ) {
     }
 
-    #[Route('/trick/{id}/remove-image/{imageName}', name: 'app_trick_remove_image')]
+    #[Route('/trick/{id}/remove-image/{imageName}', name: 'app_trick_remove_image', methods: [Request::METHOD_GET])]
     public function removeImage(Trick $trick, $imageName = null): Response
     {
         if ($imageName) {

@@ -64,6 +64,7 @@ class ShowController extends AbstractController
             $this->addFlash('success', 'Votre commentaire a bien été publié !');
 
             return $this->redirectToRoute('app_trick_show', [
+                '_fragment' => 'comment-form',
                 'id' => $trick->getId(),
                 'slug' => $trick->getSlug(),
             ]);

@@ -13,8 +13,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\Image;
-use Symfony\Component\Validator\Constraints\Regex;
-use Symfony\Component\Validator\Constraints\Url;
 
 class TrickFormType extends AbstractType
 {
@@ -35,6 +33,7 @@ class TrickFormType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'multiple' => false,
+                'placeholder' => 'Sélectionner',
             ])
             ->add('mainImage', FileType::class, [
                 'label' => false,
