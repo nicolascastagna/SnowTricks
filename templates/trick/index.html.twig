@@ -3,18 +3,11 @@
 		<div class="container-cards" id="tricks-container">
 			<h2 class="title">Listes des Tricks</h2>
 			{% include '_partials/_flash.html.twig' %}
-			<div class="container-tricks">
-				{% for trick in tricks %}
+			<div class="container-tricks" id="trickList">
+				{% for trick in tricks|slice(0, 15) %}
 					<div class="card-trick">
 						<div class="card-header">
-							{% if trick.mainImage %}
-								{% set mainImage = trick.mainImage %}
-							{% elseif trick.pictures|length > 0 %}
-								{% set mainImage = trick.pictures|first.name %}
-							{% else %}
-								{% set mainImage = 'image-placeholder.jpg' %}
-							{% endif %}
-							<img src="{{ asset('assets/trick/' ~ mainImage) }}" alt="{{ trick.name }}">
+							<img src="{{ asset('assets/trick/' ~ trick.mainImage) }}" alt="{{ trick.name }}">
 						</div>
 						<div class='wrapper-content-actions'>
 							<div class="card-content">
@@ -35,11 +28,42 @@
 						</div>
 					</div>
 				{% endfor %}
-				{% if tricks is empty %}
-					<p>Pas de trick disponible !</p>
+				<div id="hiddenTricks" style="display: none;">
+					{% for trick in tricks|slice(15) %}
+						<div class="card-trick">
+							<div class="card-header">
+								<img src="{{ asset('assets/trick/' ~ trick.mainImage) }}" alt="{{ trick.name }}">
+							</div>
+							<div class='wrapper-content-actions'>
+								<div class="card-content">
+									<h4>
+										<a href="{{ path('app_trick_show', {'id': trick.id ,'slug': trick.getSlug()}) }}">
+											{{ trick.name }}
+										</a>
+									</h4>
+								</div>
+								<div class="card-actions">
+									<a href="#">
+										<i class="fas fa-pencil-alt"></i>
+									</a>
+									<a href="#">
+										<i class="fa fa-trash-o"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+					{% if tricks is empty %}
+						<p>Pas de trick disponible !</p>
+					{% endif %}
+				</div>
+				{% if tricks|length > 15 %}
+					<button class="btn" id="loadMoreTricks">Voir plus</button>
+					<div class="scroll-up-arrow" onclick="scrollToTricks()">
+						<i class="fas fa-solid fa-arrow-up"></i>
+					</div>
 				{% endif %}
 			</div>
-		</div>
-	</section>
+		</section>
 
-{% endblock %}
+	{% endblock %}

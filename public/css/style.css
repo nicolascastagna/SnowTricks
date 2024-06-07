@@ -29,7 +29,7 @@ body {
 }
 
 section {
-    min-height: 90vh;
+    min-height: 90dvh;
 }
 
 .grid-container {
@@ -543,6 +543,47 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* Arrow */
+.scroll-down-arrow {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    cursor: pointer;
+    font-size: 30px;
+    color: white;
+    box-shadow: 0 0 5px rgba(var(--primary), 0.1);
+    animation: bounce 2s ease-in-out infinite;
+    will-change: transform;
+}
+
+.scroll-up-arrow {
+    position: fixed;
+    bottom: 100px;
+    right: 80px;
+    cursor: pointer;
+    font-size: 30px;
+    color: var(--secondary);
+    z-index: 10;
+    animation: bounce 2s ease-in-out infinite;
+    will-change: transform;
+}
+
+.load-more-btn,
+.load-less-btn {
+    display: block;
+    margin: 20px auto;
+}
+
+@keyframes bounce {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
 }
 
 @media all and (min-width: 768px) {
