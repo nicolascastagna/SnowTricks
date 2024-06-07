@@ -6,22 +6,20 @@
 {% block body %}
 	<section class="wrapper-inputs register">
 		{{ form_start(form) }}
-		<h3>Ajouter un nom</h3>
+		<h3>Nom</h3>
 		{{ form_row(form.name) }}
-		<h3>Ajouter une description</h3>
+		<h3>Description</h3>
 		{{ form_row(form.description, {'attr': {'class': 'form-control trick-textarea'}}) }}
 		{{ form_errors(form.description) }}
-		<h3>Ajouter une catégorie</h3>
+		<h3>Catégorie</h3>
 		{{ form_row(form.category, {'attr': {'class': 'form-control'}}) }}
 		{{ form_errors(form.category) }}
-		<h3>Ajouter une image principale</h3>
+		<h3>Image principale</h3>
 		{{ form_row(form.mainImage) }}
-		{{ form_errors(form.mainImage) }}
-		<h3>Ajouter des images</h3>
+		<h3>Images</h3>
 		{{ form_row(form.pictures) }}
-		{{ form_errors(form.pictures) }}
 
-		<h3>Ajouter des vidéos</h3>
+		<h3>Liens de vidéos</h3>
 		<div id='videos-list' data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
 			{{ form_row(form.videos, {'attr': {'class': 'video-input'}}) }}
 			{{ form_errors(form.videos) }}

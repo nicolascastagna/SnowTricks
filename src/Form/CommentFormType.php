@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class CommentFormType extends AbstractType
 {
@@ -16,6 +17,12 @@ class CommentFormType extends AbstractType
             ->add('content', TextareaType::class, [
                 'label' => false,
                 'attr' => ['placeholder' => 'Écrivez un commentaire...', 'class' => 'textarea-comment'],
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z0-9\s.,!?àèéêëîïôùûüç«»()°%+=;\'"\-_]+$/u',
+                        'message' => 'Votre commentaire ne peut contenir que des lettres (avec accents), des chiffres, des guillemets et des caractères de ponctuation de base.',
+                    ]),
+                ],
             ]);
     }
 
