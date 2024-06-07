@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class DeleteController extends AbstractController
 {
@@ -21,6 +22,7 @@ class DeleteController extends AbstractController
     }
 
     #[Route('/trick/{id}/remove-image/{imageName}', name: 'app_trick_remove_image', methods: [Request::METHOD_GET])]
+    #[IsGranted('ROLE_USER')]
     public function removeImage(Trick $trick, $imageName = null): Response
     {
         if ($imageName) {
@@ -57,6 +59,30 @@ class DeleteController extends AbstractController
             '_fragment' => 'existing-images',
             'id' => $trick->getId()
         ]);
+    }
+
+    #[Route('/{id}', name: 'app_trick_delete', methods: Request::METHOD_POST)]
+    public function delete(Request $request, Trick $trick, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $trick->getId(), $request->request->get('_token'))) {
+            foreach ($trick->getPictures() as $picture) {
+                $this->deleteImage($picture->getName());
+                $this->entityManager->remove($picture);
+            }
+            if ($trick->getMainImage() && $trick->getMainImage() !== 'image-placeholder.jpg') {
+                $this->deleteImage($trick->getMainImage());
+            }
+            $entityManager->remove($trick);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le trick a été supprimé avec succès.');
+        } else {
+            $this->addFlash('error', 'Une erreur est survenue lors de la suppression du trick.');
+        }
+
+        return $this->redirectToRoute('homepage', [
+            '_fragment' => 'tricks-container'
+        ], Response::HTTP_SEE_OTHER);
     }
 
     private function deleteImage(string $imageName): void

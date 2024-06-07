@@ -29,7 +29,7 @@ body {
 }
 
 section {
-    min-height: 90vh;
+    min-height: 90dvh;
 }
 
 .grid-container {
@@ -55,6 +55,8 @@ img {
 header {
     background-color: white;
     opacity: 0.9;
+    position: relative;
+    z-index: 10;
 }
 
 .group-menus {
@@ -144,6 +146,7 @@ nav a {
     transition: color 0.2s ease-in-out;
     letter-spacing: 1px;
     margin: 20px 10px 20px 20px;
+    z-index: 20;
 }
 
 nav a:before {
@@ -194,17 +197,18 @@ nav a:hover:before {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    position: relative;
+    /* position: relative; */
 }
 
 .hero-text {
     position: absolute;
-    top: 15%;
+    top: 25%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
     letter-spacing: 2px;
     text-shadow: 1px 1px black;
+    z-index: 1;
 }
 
 /* Trick homepage */
@@ -243,6 +247,7 @@ nav a:hover:before {
     width: 20%;
     display: flex;
     justify-content: space-around;
+    align-items: center;
 }
 
 .card-actions a {
@@ -262,6 +267,22 @@ nav a:hover:before {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.btn-actions {
+    background-color: unset !important;
+    color: var(--content) !important;
+    padding: 0 !important;
+}
+
+.btn-actions:hover {
+    color: var(--primary) !important;
+}
+
+.text-overflow {
+    text-overflow: ellipsis;
+    min-width: 125px;
+    overflow-x: hidden;
 }
 
 /* Trick detail */
@@ -339,24 +360,34 @@ nav a:hover:before {
 .infos-date span {
     border: 1px solid var(--primary);
     padding: 10px;
-    margin: 10px;
     border-radius: 5px;
+    display: inline-flex;
+    margin: 5px;
 }
 
 /* list media */
 .container-trick-media {
-    display: flex;
     flex-wrap: wrap;
     margin-bottom: 40px;
+    justify-content: center;
+    display: none;
 }
 
 .list-pictures {
-    margin: 10px 10px 10px 0px;
+    margin: 10px;
 }
 
-.list-pictures img {
-    width: 300px;
-    margin: 10px 10px 10px 0px;
+.list-pictures img,
+.list-pictures iframe {
+    min-width: 370px;
+    min-height: 275px;
+}
+
+#seeMedia,
+#seeMediaVideos {
+    margin: 20px auto 30px;
+    display: flex;
+    float: unset;
 }
 
 /* Inputs */
@@ -502,6 +533,19 @@ nav a:hover:before {
     display: none;
 }
 
+.trick-media-container .trick-media {
+    min-height: 250px;
+}
+
+.edit-media-input .card-actions {
+    width: unset;
+    margin: 10px;
+}
+
+.container-trick-videos {
+    display: none;
+}
+
 /* Comments */
 .comments-list {
     display: flex;
@@ -548,6 +592,21 @@ nav a:hover:before {
     float: right;
 }
 
+.btn-comments {
+    margin: 30px auto;
+    display: flex;
+}
+
+.btn-comments a {
+    color: white;
+    text-decoration: none;
+}
+
+.center-flash {
+    text-align: center;
+    margin-top: 30px;
+}
+
 /* Pagination */
 .pagination {
     text-align: center;
@@ -586,12 +645,55 @@ footer {
     align-items: center;
 }
 
+/* Arrow */
+.scroll-down-arrow {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    cursor: pointer;
+    font-size: 30px;
+    color: white;
+    box-shadow: 0 0 5px rgba(var(--primary), 0.1);
+    animation: bounce 2s ease-in-out infinite;
+    will-change: transform;
+}
+
+.scroll-up-arrow {
+    position: fixed;
+    bottom: 100px;
+    right: 80px;
+    cursor: pointer;
+    font-size: 30px;
+    color: var(--secondary);
+    z-index: 10;
+    animation: bounce 2s ease-in-out infinite;
+    will-change: transform;
+}
+
+@keyframes bounce {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
 @media all and (min-width: 768px) {
     .card-trick {
         width: 45%;
     }
     .card-header img {
         height: 350px;
+    }
+    .list-pictures img,
+    .list-pictures iframe {
+        min-width: 350px;
+        width: 0;
+    }
+    .infos-date span {
+        margin: 10px;
     }
 }
 
@@ -642,5 +744,24 @@ footer {
     }
     .card-actions i {
         padding: 10px;
+    }
+    .list-pictures img,
+    .list-pictures iframe {
+        min-width: 300px;
+    }
+    .container-trick-media {
+        display: flex;
+    }
+    #seeMedia,
+    #seeMediaVideos {
+        display: none;
+    }
+    .edit-media-input .card-actions {
+        width: unset;
+        margin: 10px;
+        justify-content: space-around;
+    }
+    .container-trick-videos {
+        display: block;
     }
 }

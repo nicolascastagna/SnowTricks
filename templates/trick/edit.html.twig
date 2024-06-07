@@ -26,40 +26,46 @@
 		{{ form_row(form.mainImage) }}
 		<h3>Images</h3>
 		{% if trick.pictures is not empty %}
-			<div id="existing-images">
-				{% for picture in trick.pictures %}
-					<div class="image-thumbnail">
-						<img src="{{ asset('assets/trick/' ~ picture.name) }}" alt="{{ trick.name }}" class="edit-centered-image">
-						<a href="{{ path('app_trick_remove_image', {'id': trick.id, 'imageName': picture.name}) }}" class="delete-image">
-							<i class="fa fa-trash-o"></i>
-						</a>
-					</div>
-				{% endfor %}
+			<div>
+				<div class="container-trick-media" id="existing-images">
+					{% for picture in trick.pictures %}
+						<div class="image-thumbnail">
+							<img src="{{ asset('assets/trick/' ~ picture.name) }}" alt="{{ trick.name }}" class="edit-centered-image">
+							<a href="{{ path('app_trick_remove_image', {'id': trick.id, 'imageName': picture.name}) }}" class="delete-image">
+								<i class="fa fa-trash-o"></i>
+							</a>
+						</div>
+					{% endfor %}
+				</div>
+				<button type="button" class="btn" id="seeMedia">Voir les medias</button>
 			</div>
 		{% endif %}
 		{{ form_row(form.pictures) }}
 
 		<h3>Liens de vidéos</h3>
 		{% if trick.videos is not null %}
-			<div id='videos-list' data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
-				{% for video in form.videos %}
-					<div class="video-input">
-						<div class="trick-media-container">
-							<iframe class="trick-media" src="{{ video.vars.value.name }}" width="100%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-						</div>
-						<div class="edit-media-input">
-							{{ form_row(video.name, {'attr': {'class': 'video-input-edit'}}) }}
-							<div class="card-actions">
-								<button class="btn edit-video-btn" type="button">
-									<i class="fas fa-pencil-alt"></i>
-								</button>
-								<button class="btn delete-video-btn" type="button">
-									<i class="fa fa-trash-o"></i>
-								</button>
+			<div>
+				<div class="container-trick-videos" id='videos-list' data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
+					{% for video in form.videos %}
+						<div class="video-input">
+							<div class="trick-media-container">
+								<iframe class="trick-media" src="{{ video.vars.value.name }}" width="100%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+							</div>
+							<div class="edit-media-input">
+								{{ form_row(video.name, {'attr': {'class': 'video-input-edit'}}) }}
+								<div class="card-actions">
+									<button class="btn edit-video-btn" type="button">
+										<i class="fas fa-pencil-alt"></i>
+									</button>
+									<button class="btn delete-video-btn" type="button">
+										<i class="fa fa-trash-o"></i>
+									</button>
+								</div>
 							</div>
 						</div>
-					</div>
-				{% endfor %}
+					{% endfor %}
+				</div>
+				<button type="button" class="btn" id="seeMediaVideos">Voir les medias</button>
 			</div>
 		{% endif %}
 		<button type="button" id="add-video" class="btn btn-add">Ajouter une vidéo</button>
@@ -70,6 +76,7 @@
 		</p>
 		{% include '_partials/_flash.html.twig' %}
 		<button type="submit" class="btn">Enregistrer</button>
+		{{ include('trick/_delete_form.html.twig', { trick: trick }) }}
 		{{ form_end(form) }}
 	</section>
 {% endblock %}

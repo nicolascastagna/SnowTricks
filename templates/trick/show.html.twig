@@ -17,29 +17,30 @@
 					<a href="{{ path('app_trick_edit', {'id': trick.id}) }}">
 						<i class="fas fa-pencil-alt"></i>
 					</a>
-					<a href="#">
-						<i class="fa fa-trash-o"></i>
-					</a>
+					{{ include('trick/_delete_form.html.twig', { trick: trick }) }}
 				</div>
 			{% endif %}
 		</div>
-		<div class="container-trick-media">
-			{% if pictures is not empty %}
-				{% for picture in pictures %}
-					<div class="list-pictures">
-						<img src="{{ asset('assets/trick/' ~ picture.name) }}" alt="{{ trick.name }}">
-					</div>
-				{% endfor %}
-			{% endif %}
-			{% if videos is not empty %}
-				{% for video in videos %}
-					<div class="list-pictures">
-						<iframe class="trick-media" width="400" height="350" src="{{video.name}}" encrypted-media; gyroscope; allowfullscreen></iframe>
-					</div>
-				{% endfor %}
-			{% endif %}
+		<div>
+			<div class="container-trick-media" id="trick-see-media">
+				{% if pictures is not empty %}
+					{% for picture in pictures %}
+						<div class="list-pictures">
+							<img src="{{ asset('assets/trick/' ~ picture.name) }}" alt="{{ trick.name }}">
+						</div>
+					{% endfor %}
+				{% endif %}
+				{% if videos is not empty %}
+					{% for video in videos %}
+						<div class="list-pictures">
+							<iframe class="trick-media" src="{{video.name}}" encrypted-media; gyroscope; allowfullscreen></iframe>
+						</div>
+					{% endfor %}
+				{% endif %}
+			</div>
+			<button class="btn" id="seeMedia">Voir les medias</button>
 		</div>
-		<div class="container-infos-detail">
+		<div class="container-infos-detail" id="confirmation-edit">
 			<p>{{ trick.description }}</p>
 			<p>Créé par
 				{{ user }}</p>
@@ -59,16 +60,24 @@
 				{% endif %}
 			</div>
 		</div>
-		<div>
-			<div class="wrapper-add-comment" id="comment-form">
-				{{ form_start(commentForm) }}
-				<div class="input-container">
-					{{ form_widget(commentForm.content, {'attr': {'class': 'textarea-comment'}}) }}
-					<button class="btn-primary btn" type="submit">Laisser un commentaire</button>
-					{% include '_partials/_flash.html.twig' %}
-				</div>
-				{{ form_end(commentForm) }}
+		<div id="comment-form">
+			<div class="center-flash">
+				{% include '_partials/_flash.html.twig' %}
 			</div>
+			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+				<div class="wrapper-add-comment">
+					{{ form_start(commentForm) }}
+					<div class="input-container">
+						{{ form_widget(commentForm.content, {'attr': {'class': 'textarea-comment'}}) }}
+						<button class="btn" type="submit">Laisser un commentaire</button>
+					</div>
+					{{ form_end(commentForm) }}
+				</div>
+			{% else %}
+				<button class="btn btn-comments" type="button">
+					<a class="link-menu {% if app.request.attributes.get('_route') == 'app_login' %}active{% endif %}" href="{{ path('app_login') }}">Connectez-vous pour ajouter un commentaire</a>
+				</button>
+			{% endif %}
 			{% include 'comment/index.html.twig' %}
 		</div>
 	</section>

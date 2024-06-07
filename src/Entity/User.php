@@ -52,6 +52,9 @@ class User implements
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $userPicture = null;
+
     public function __construct()
     {
         $this->tricks = new ArrayCollection();
@@ -220,6 +223,18 @@ class User implements
     public function setVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getUserPicture(): ?string
+    {
+        return $this->userPicture;
+    }
+
+    public function setUserPicture(?string $userPicture): static
+    {
+        $this->userPicture = $userPicture;
 
         return $this;
     }

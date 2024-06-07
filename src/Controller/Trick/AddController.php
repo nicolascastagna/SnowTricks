@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AddController extends AbstractController
 {
@@ -24,12 +25,7 @@ class AddController extends AbstractController
     }
 
     #[Route('/trick/add', name: 'app_trick_add', methods: [Request::METHOD_GET, Request::METHOD_POST])]
-    /**
-     * add
-     *
-     * @param  Trick $trick
-     * @return Response
-     */
+    #[IsGranted('ROLE_USER')]
     public function add(Request $request): Response
     {
         $trick = new Trick();

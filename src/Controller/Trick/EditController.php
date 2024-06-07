@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class EditController extends AbstractController
 {
@@ -24,6 +25,7 @@ class EditController extends AbstractController
     }
 
     #[Route('/trick/{id}/edit', name: 'app_trick_edit', methods: [Request::METHOD_GET, Request::METHOD_POST])]
+    #[IsGranted('ROLE_USER')]
     public function edit(Request $request, Trick $trick): Response
     {
         $form = $this->createForm(TrickFormType::class, $trick);
@@ -56,6 +58,7 @@ class EditController extends AbstractController
             $this->addFlash('success', 'Le trick a bien été modifié !');
 
             return $this->redirectToRoute('app_trick_show', [
+                '_fragment' => 'confirmation-edit',
                 'id' => $trick->getId(),
                 'slug' => $trick->getSlug()
             ]);
