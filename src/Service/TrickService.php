@@ -4,8 +4,8 @@ namespace App\Service;
 
 use App\Entity\Trick;
 use App\Entity\Picture;
-use App\Entity\Video;
 use App\Repository\CategoryRepository;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -80,14 +80,13 @@ class TrickService
      * @param Trick $trick
      * @return void
      */
-    public function handleVideos(array $videos, Trick $trick): void
+    public function handleVideos(Trick $trick, FormInterface $form): void
     {
-        foreach ($videos as $videoUrl) {
-            $embedCode = $this->generateEmbedCode($videoUrl);
-            if ($embedCode) {
-                $video = new Video();
-                $video->setName($embedCode);
-                $video->setTrick($trick);
+        $videos = $form->get('videos')->getData();
+        foreach ($videos as $video) {
+            if (null !== $video->getName()) {
+                $formattedName = $this->generateEmbedCode($video->getName());
+                $video->setName($formattedName);
                 $trick->addVideo($video);
             }
         }

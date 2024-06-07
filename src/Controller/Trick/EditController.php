@@ -4,56 +4,48 @@ namespace App\Controller\Trick;
 
 use App\Entity\Trick;
 use App\Form\TrickFormType;
-use App\Repository\CategoryRepository;
+use App\Repository\PictureRepository;
 use App\Repository\TrickRepository;
 use App\Service\TrickService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
-class AddController extends AbstractController
+class EditController extends AbstractController
 {
     public function __construct(
         private readonly TrickRepository $trickRepository,
-        private readonly CategoryRepository $categoryRepository,
         private readonly EntityManagerInterface $entityManager,
-        private readonly TrickService $trickService
+        private readonly TrickService $trickService,
+        private readonly PictureRepository $pictureRepository
     ) {
     }
 
-    #[Route('/trick/add', name: 'app_trick_add', methods: [Request::METHOD_GET, Request::METHOD_POST])]
-    /**
-     * add
-     *
-     * @param  Trick $trick
-     * @return Response
-     */
-    public function add(Request $request): Response
+    #[Route('/trick/{id}/edit', name: 'app_trick_edit', methods: [Request::METHOD_GET, Request::METHOD_POST])]
+    public function edit(Request $request, Trick $trick): Response
     {
-        $trick = new Trick();
         $form = $this->createForm(TrickFormType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($this->trickRepository->findOneBy(['name' => $trick->getName()])) {
-                $this->addFlash('error', 'Ce nom est déjà utilisé !');
-                return $this->redirectToRoute('trick_add');
-            }
-            $trick->setCreationDate(new \DateTime());
-            $trick->setUser($this->getUser());
-
+            $trick->setUpdateDate(new \DateTime());
             $category = $form->get('category')->getData();
             $this->trickService->handleCategory($category, $trick);
-
             $mainImage = $form->get('mainImage')->getData();
             $images = $form->get('pictures')->getData();
 
-            $this->trickService->handleMainImage($mainImage, $trick);
+            if ($mainImage) {
+                $this->trickService->handleMainImage($mainImage, $trick);
+            }
 
             if ($images) {
                 $this->trickService->handleImages($images, $trick);
+            }
+
+            if ($trick->getMainImage() === 'image-placeholder.jpg' && !$trick->getPictures()->isEmpty()) {
+                $trick->setMainImage($trick->getPictures()->first()->getName());
             }
 
             $this->trickService->handleVideos($trick, $form);
@@ -61,15 +53,17 @@ class AddController extends AbstractController
             $this->entityManager->persist($trick);
             $this->entityManager->flush();
 
-            $this->addFlash('success', 'Votre trick a bien été créé !');
+            $this->addFlash('success', 'Le trick a bien été modifié !');
 
-            return $this->redirectToRoute('homepage', [
-                '_fragment' => 'tricks-container',
+            return $this->redirectToRoute('app_trick_show', [
+                'id' => $trick->getId(),
+                'slug' => $trick->getSlug()
             ]);
         }
 
-        return $this->render('trick/add.html.twig', [
-            'form' => $form,
+        return $this->render('trick/edit.html.twig', [
+            'trick' => $trick,
+            'form' => $form->createView(),
         ]);
     }
 }

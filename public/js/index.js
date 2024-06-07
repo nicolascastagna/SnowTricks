@@ -1,3 +1,4 @@
+// create inputs video
 const addVideoButton = document.getElementById("add-video");
 const videoList = document.getElementById("videos-list");
 
@@ -51,4 +52,50 @@ document.addEventListener("DOMContentLoaded", function () {
         hiddenTricks.style.display = "flex";
         loadMoreBtn.style.display = "none";
     });
+});
+
+function deleteConfirmationImage() {
+    const deleteLinks = document.querySelectorAll(".delete-image");
+
+    deleteLinks.forEach((link) => {
+        link.addEventListener("click", function (event) {
+            event.preventDefault();
+            const confirmation = confirm(
+                "Êtes-vous sûr de vouloir supprimer cette image ?"
+            );
+            if (confirmation) {
+                window.location.href = this.href;
+            }
+        });
+    });
+}
+
+document.addEventListener("DOMContentLoaded", deleteConfirmationImage);
+
+// edit or remove video
+document.addEventListener("DOMContentLoaded", function () {
+    const videoList = document.getElementById("videos-list");
+
+    const attachEventListeners = (videoInputDiv) => {
+        const editButton = videoInputDiv.querySelector(".edit-video-btn");
+        const deleteButton = videoInputDiv.querySelector(".delete-video-btn");
+        const iframeContainer = videoInputDiv.querySelector(
+            ".trick-media-container"
+        );
+        const videoInputUrl = videoInputDiv.querySelector(".video-input-edit");
+
+        editButton.addEventListener("click", function () {
+            iframeContainer.style.display = "none";
+            videoInputUrl.style.display = "block";
+        });
+
+        deleteButton.addEventListener("click", function () {
+            if (confirm("Êtes-vous sûr de vouloir supprimer cette vidéo ?")) {
+                videoInputDiv.remove();
+            }
+        });
+    };
+
+    const videoInputs = videoList.querySelectorAll(".video-input");
+    videoInputs.forEach(attachEventListeners);
 });

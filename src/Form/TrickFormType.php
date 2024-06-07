@@ -33,6 +33,7 @@ class TrickFormType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'multiple' => false,
+                'placeholder' => 'Sélectionner',
             ])
             ->add('mainImage', FileType::class, [
                 'label' => false,
@@ -52,18 +53,11 @@ class TrickFormType extends AbstractType
                 'required' => false,
             ])
             ->add('videos', CollectionType::class, [
-                'entry_type' => TextType::class,
-                'entry_options' => [
-                    'attr' => [
-                        'placeholder' => 'Exemple : https://www.youtube.com/watch?v=LyfFuv4_wjQ&ab',
-                        'title' => 'URL YouTube ou Dailymotion'
-                    ],
-                ],
+                'entry_type' => VideoFormType::class,
                 'label' => false,
                 'allow_add' => true,
-                'allow_delete' => false,
+                'allow_delete' => true,
                 'by_reference' => false,
-                'mapped' => false,
                 'required' => false,
             ]);
     }

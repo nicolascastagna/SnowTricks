@@ -407,6 +407,10 @@ nav a:hover:before {
     font-size: 14px;
 }
 
+.video-url {
+    margin-bottom: 10px;
+}
+
 .btn {
     padding: 12px 22px;
     background-color: var(--primary);
@@ -463,6 +467,43 @@ nav a:hover:before {
 .input-container,
 .btn {
     animation: fadeInUp 0.5s ease-in-out;
+}
+
+/* Edit page */
+.image-thumbnail {
+    position: relative;
+    display: inline-block;
+}
+
+.edit-centered-image {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.delete-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    background-color: white;
+    padding: 5px;
+}
+
+.delete-image i {
+    font-size: 24px;
+    color: var(--primary);
+}
+
+.delete-image i:hover {
+    color: var(--secondary);
+}
+
+.video-input-edit {
+    margin-bottom: 5px;
+    display: none;
 }
 
 /* Comments */
