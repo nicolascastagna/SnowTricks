@@ -23,13 +23,6 @@ class ShowController extends AbstractController
     }
 
     #[Route('/trick/{id}/{slug}', name: 'app_trick_show', methods: [Request::METHOD_GET, Request::METHOD_POST])]
-    /**
-     * show
-     *
-     * @param  Request $request
-     * @param  Trick $trick
-     * @return Response
-     */
     public function show(Request $request, Trick $trick): Response
     {
         $slug = $trick->getSlug();

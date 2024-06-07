@@ -247,6 +247,7 @@ nav a:hover:before {
     width: 20%;
     display: flex;
     justify-content: space-around;
+    align-items: center;
 }
 
 .card-actions a {
@@ -266,6 +267,22 @@ nav a:hover:before {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.btn-actions {
+    background-color: unset !important;
+    color: var(--content) !important;
+    padding: 0 !important;
+}
+
+.btn-actions:hover {
+    color: var(--primary) !important;
+}
+
+.text-overflow {
+    text-overflow: ellipsis;
+    min-width: 125px;
+    overflow-x: hidden;
 }
 
 /* Trick detail */
@@ -343,24 +360,34 @@ nav a:hover:before {
 .infos-date span {
     border: 1px solid var(--primary);
     padding: 10px;
-    margin: 10px;
     border-radius: 5px;
+    display: inline-flex;
+    margin: 5px;
 }
 
 /* list media */
 .container-trick-media {
-    display: flex;
     flex-wrap: wrap;
     margin-bottom: 40px;
+    justify-content: center;
+    display: none;
 }
 
 .list-pictures {
-    margin: 10px 10px 10px 0px;
+    margin: 10px;
 }
 
-.list-pictures img {
-    width: 300px;
-    margin: 10px 10px 10px 0px;
+.list-pictures img,
+.list-pictures iframe {
+    min-width: 370px;
+    min-height: 275px;
+}
+
+#seeMedia,
+#seeMediaVideos {
+    margin: 20px auto 30px;
+    display: flex;
+    float: unset;
 }
 
 /* Inputs */
@@ -506,6 +533,19 @@ nav a:hover:before {
     display: none;
 }
 
+.trick-media-container .trick-media {
+    min-height: 250px;
+}
+
+.edit-media-input .card-actions {
+    width: unset;
+    margin: 10px;
+}
+
+.container-trick-videos {
+    display: none;
+}
+
 /* Comments */
 .comments-list {
     display: flex;
@@ -550,6 +590,21 @@ nav a:hover:before {
 
 .wrapper-add-comment .btn {
     float: right;
+}
+
+.btn-comments {
+    margin: 30px auto;
+    display: flex;
+}
+
+.btn-comments a {
+    color: white;
+    text-decoration: none;
+}
+
+.center-flash {
+    text-align: center;
+    margin-top: 30px;
 }
 
 /* Pagination */
@@ -632,6 +687,14 @@ footer {
     .card-header img {
         height: 350px;
     }
+    .list-pictures img,
+    .list-pictures iframe {
+        min-width: 350px;
+        width: 0;
+    }
+    .infos-date span {
+        margin: 10px;
+    }
 }
 
 @media all and (min-width: 1024px) {
@@ -681,5 +744,24 @@ footer {
     }
     .card-actions i {
         padding: 10px;
+    }
+    .list-pictures img,
+    .list-pictures iframe {
+        min-width: 300px;
+    }
+    .container-trick-media {
+        display: flex;
+    }
+    #seeMedia,
+    #seeMediaVideos {
+        display: none;
+    }
+    .edit-media-input .card-actions {
+        width: unset;
+        margin: 10px;
+        justify-content: space-around;
+    }
+    .container-trick-videos {
+        display: block;
     }
 }

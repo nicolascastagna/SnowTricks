@@ -54,6 +54,31 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    const seeMediaBtn = document.getElementById("seeMedia");
+    const seeMediaVideosBtn = document.getElementById("seeMediaVideos");
+    const hiddenTricks = document.getElementById("trick-see-media");
+    const hiddenTricksImages = document.getElementById("existing-images");
+    const hiddenTricksVideos = document.getElementById("videos-list");
+
+    seeMediaBtn.addEventListener("click", function () {
+        if (hiddenTricks) {
+            hiddenTricks.style.display = "flex";
+            seeMediaBtn.style.display = "none";
+        }
+        if (hiddenTricksImages) {
+            hiddenTricksImages.style.display = "flex";
+            seeMediaBtn.style.display = "none";
+        }
+    });
+    seeMediaVideosBtn.addEventListener("click", function () {
+        if (hiddenTricksVideos) {
+            hiddenTricksVideos.style.display = "block";
+            seeMediaVideosBtn.style.display = "none";
+        }
+    });
+});
+
 function deleteConfirmationImage() {
     const deleteLinks = document.querySelectorAll(".delete-image");
 

@@ -11,20 +11,20 @@
 						</div>
 						<div class='wrapper-content-actions'>
 							<div class="card-content">
-								<h4>
+								<h4 class="text-overflow">
 									<a href="{{ path('app_trick_show', {'id': trick.id ,'slug': trick.getSlug()}) }}">
 										{{ trick.name }}
 									</a>
 								</h4>
 							</div>
-							<div class="card-actions">
-								<a href="{{ path('app_trick_edit', {'id': trick.id}) }}">
-									<i class="fas fa-pencil-alt"></i>
-								</a>
-								<a href="#">
-									<i class="fa fa-trash-o"></i>
-								</a>
-							</div>
+							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+								<div class="card-actions">
+									<a href="{{ path('app_trick_edit', {'id': trick.id}) }}">
+										<i class="fas fa-pencil-alt"></i>
+									</a>
+									{{ include('trick/_delete_form.html.twig', { trick: trick }) }}
+								</div>
+							{% endif %}
 						</div>
 					</div>
 				{% endfor %}
@@ -42,21 +42,21 @@
 										</a>
 									</h4>
 								</div>
-								<div class="card-actions">
-									<a href="#">
-										<i class="fas fa-pencil-alt"></i>
-									</a>
-									<a href="#">
-										<i class="fa fa-trash-o"></i>
-									</a>
-								</div>
+								{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+									<div class="card-actions">
+										<a href="{{ path('app_trick_edit', {'id': trick.id}) }}">
+											<i class="fas fa-pencil-alt"></i>
+										</a>
+										{{ include('trick/_delete_form.html.twig', { trick: trick }) }}
+									</div>
+								{% endif %}
 							</div>
 						</div>
 					{% endfor %}
-					{% if tricks is empty %}
-						<p>Pas de trick disponible !</p>
-					{% endif %}
 				</div>
+				{% if tricks is empty %}
+					<p>Pas de trick disponible !</p>
+				{% endif %}
 				{% if tricks|length > 15 %}
 					<button class="btn" id="loadMoreTricks">Voir plus</button>
 					<div class="scroll-up-arrow" onclick="scrollToTricks()">
