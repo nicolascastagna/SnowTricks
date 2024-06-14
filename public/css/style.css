@@ -634,6 +634,23 @@ nav a:hover:before {
     cursor: default;
 }
 
+/* Profile */
+.btn-delete {
+    margin-right: 5px;
+}
+
+.container-profile {
+    display: flex;
+    width: 50%;
+    margin-right: auto;
+    margin-left: auto;
+    flex-direction: column;
+}
+
+.container-profile img {
+    max-width: 300px;
+}
+
 /* Footer */
 footer {
     background-color: var(--background-color-footer);

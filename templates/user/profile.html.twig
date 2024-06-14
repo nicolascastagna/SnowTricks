@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page de profil
+{% endblock %}
+
+{% block body %}
+	<section class="wrapper-inputs register">
+		<div class="container-profile">
+			<h1>Profil de
+				{{user.username}}</h1>
+			<div>
+				<img src="{{ asset('/assets/profile/'~ user.userPicture|default('user_default.png')) }}" alt="Photo de {{ user.username }}" class="photo-profile">
+			</div>
+			<h3>Votre pseudo</h3>
+			<div>{{user.username}}</div>
+			<div>
+				<h3>Votre Email</h3>
+				<p>{{ user.email }}</p>
+			</div>
+
+			<button class="btn btn-comments" type="button">
+				<a href="{{ path('app_profile_edit', {'username': app.user.username}) }}">Modifiez votre profil</a>
+			</button>
+		</div>
+	</section>
+{% endblock %}
