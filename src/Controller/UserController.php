@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -99,6 +98,12 @@ class UserController extends AbstractController
         return $fileName;
     }
 
+    /**
+     * deleteUserPicture
+     *
+     * @param  string $fileName
+     * @return void
+     */
     private function deleteUserPicture(string $fileName): void
     {
         $filePath = $this->userDirectory . '/' . $fileName;
