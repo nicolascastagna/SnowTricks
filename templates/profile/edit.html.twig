@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification du profil
+{% endblock %}
+
+{% block body %}
+	<section class="wrapper-inputs register">
+		<h1>Modification du profil</h1>
+
+		{{ form_start(form) }}
+		<div class="input-container">
+			{{ form_row(form.username) }}
+		</div>
+		<div class="input-container">
+			{{ form_row(form.email) }}
+		</div>
+		<div class="input-container">
+			{{ form_row(form.userPicture) }}
+		</div>
+		<button class="btn">Mettre à jour</button>
+		{{ form_end(form) }}
+
+		<button class="btn btn-comments">
+			<a href="{{ path('app_profile_show', {'username': user.username}) }}">Revenir au profil</a>
+		</button>
+		{{ include('profile/_delete_form.html.twig') }}
+
+	</section>
+{% endblock %}

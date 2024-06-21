@@ -34,7 +34,7 @@ class ShowController extends AbstractController
         $category = $trick->getCategory();
         $pictures = $trick->getPictures();
         $videos = $trick->getVideos();
-        $user = $trick->getUser()->getUsername();
+        $user = $trick->getUser();
 
         $page = $request->query->getInt('page', 1);
         $limit = 10;
