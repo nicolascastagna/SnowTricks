@@ -12,8 +12,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/user')]
+#[Route('/profile')]
 class UserController extends AbstractController
 {
     public function __construct(
@@ -22,14 +23,16 @@ class UserController extends AbstractController
     }
 
     #[Route('/{username}', name: 'app_profile_show', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function show(User $user): Response
     {
-        return $this->render('user/profile.html.twig', [
+        return $this->render('profile/profile.html.twig', [
             'user' => $user,
         ]);
     }
 
     #[Route('/{username}/edit', name: 'app_profile_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         $originalUserPicture = $user->getUserPicture();
@@ -54,13 +57,14 @@ class UserController extends AbstractController
             ], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('user/edit.html.twig', [
+        return $this->render('profile/edit.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'app_profile_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->getPayload()->get('_token'))) {
