@@ -553,6 +553,7 @@ nav a:hover:before {
     width: 50%;
     margin-right: auto;
     margin-left: auto;
+    flex-direction: column;
 }
 
 .comments-list h4,
@@ -607,6 +608,36 @@ nav a:hover:before {
     margin-top: 30px;
 }
 
+.card-comment {
+    display: flex;
+    margin: 10px;
+}
+
+.card-left {
+    max-width: 80px;
+    min-width: 80px;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+.card-left img {
+    border-radius: 10px;
+}
+
+.card-right {
+    margin-bottom: 30px;
+}
+
+.card-right h4,
+.card-right .comment-date {
+    text-align: start;
+    margin-bottom: -5px;
+}
+
+.card-right p:last-child {
+    text-align: justify;
+}
+
 /* Pagination */
 .pagination {
     text-align: center;
@@ -632,6 +663,23 @@ nav a:hover:before {
     background-color: var(--secondary);
     color: white;
     cursor: default;
+}
+
+/* Profile */
+.btn-delete {
+    margin-right: 5px;
+}
+
+.container-profile {
+    display: flex;
+    width: 50%;
+    margin-right: auto;
+    margin-left: auto;
+    flex-direction: column;
+}
+
+.container-profile img {
+    max-width: 250px;
 }
 
 /* Footer */

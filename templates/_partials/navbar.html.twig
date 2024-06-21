@@ -18,6 +18,7 @@
 						<a class="link-menu {% if app.request.attributes.get('_route') == 'homepage' %}active{% endif %}" href="{{ path('homepage') }}">Accueil</a>
 						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 							<a class="link-menu {% if app.request.attributes.get('_route') == 'app_trick_add' %}active{% endif %}" href="{{ path('app_trick_add') }}">Tricks</a>
+							<a class="link-menu {% if app.request.attributes.get('_route') == 'app_profile_show' %}active{% endif %}" href="{{ path('app_profile_show', {'username': app.user.username}) }}">Profil</a>
 							<a class="link-menu {% if app.request.attributes.get('_route') == 'app_logout' %}active{% endif %}" href="{{ path('app_logout') }}">Se déconnecter</a>
 						{% else %}
 							<a class="link-menu {% if app.request.attributes.get('_route') == 'app_register' %}active{% endif %}" href="{{ path('app_register') }}">S'enregistrer</a>
