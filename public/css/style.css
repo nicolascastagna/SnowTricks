@@ -298,7 +298,7 @@ nav a:hover:before {
 
 .trick-media-detail img {
     width: 100%;
-    height: auto;
+    height: 100vh;
     display: block;
 }
 
@@ -381,6 +381,7 @@ nav a:hover:before {
 .list-pictures iframe {
     min-width: 370px;
     min-height: 275px;
+    max-height: 350px;
 }
 
 #seeMedia,
