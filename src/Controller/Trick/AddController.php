@@ -7,6 +7,7 @@ use App\Form\TrickFormType;
 use App\Repository\CategoryRepository;
 use App\Repository\TrickRepository;
 use App\Service\TrickService;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,9 +36,10 @@ class AddController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($this->trickRepository->findOneBy(['name' => $trick->getName()])) {
                 $this->addFlash('error', 'Ce nom est déjà utilisé !');
+
                 return $this->redirectToRoute('trick_add');
             }
-            $trick->setCreationDate(new \DateTime());
+            $trick->setCreationDate(new DateTime());
             $trick->setUser($this->getUser());
 
             $category = $form->get('category')->getData();

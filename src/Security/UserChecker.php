@@ -13,7 +13,6 @@ class UserChecker implements UserCheckerInterface
      * checkPreAuth
      *
      * @param  UserInterface $user
-     * @return void
      */
     public function checkPreAuth(UserInterface $user): void
     {
@@ -26,8 +25,8 @@ class UserChecker implements UserCheckerInterface
      * checkPostAuth
      *
      * @param  UserInterface $user
+     *
      * @throws CustomUserMessageAccountStatusException
-     * @return void
      */
     public function checkPostAuth(UserInterface $user): void
     {

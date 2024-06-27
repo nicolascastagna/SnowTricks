@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -87,6 +88,7 @@ class UserController extends AbstractController
      * Uploads an image and returns the new file name
      *
      * @param UploadedFile $image   
+     *
      * @return string
      */
     private function uploadImage(UploadedFile $image): string
@@ -106,7 +108,6 @@ class UserController extends AbstractController
      * deleteUserPicture
      *
      * @param  string $fileName
-     * @return void
      */
     private function deleteUserPicture(string $fileName): void
     {
@@ -114,7 +115,7 @@ class UserController extends AbstractController
         if (file_exists($filePath)) {
             try {
                 unlink($filePath);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->addFlash('error', 'Une erreur est survenue lors de la suppression de l\'ancienne image.');
             }
         }

@@ -121,7 +121,7 @@ class TrickFixtures extends Fixture
             for ($j = 0; $j < $faker->numberBetween(1, 3); $j++) {
                 do {
                     $randomPicture = $faker->randomElement($trickMainImages);
-                } while (in_array($randomPicture, $usedPictures));
+                } while (in_array($randomPicture, $usedPictures, true));
 
                 $usedPictures[] = $randomPicture;
                 $randomPicture = $faker->randomElement($trickMainImages);
@@ -165,6 +165,7 @@ class TrickFixtures extends Fixture
      *
      * @param  string $imageFileName
      * @param  string $targetDirectory
+     *
      * @return string
      */
     private function fakeUploadImage(string $imageFileName, string $targetDirectory): string
@@ -191,6 +192,7 @@ class TrickFixtures extends Fixture
      *
      * @param UploadedFile $image   
      * @param string $targetDirectory
+     *
      * @return string
      */
     private function uploadImage(UploadedFile $image, string $targetDirectory): string
@@ -209,7 +211,6 @@ class TrickFixtures extends Fixture
     /**
      * cleanDirectory
      *
-     * @return void
      */
     private function cleanDirectory(): void
     {
@@ -224,7 +225,6 @@ class TrickFixtures extends Fixture
      * 
      * @param  string $directory
      * @param  Filesystem $fileSystem
-     * @return void
      */
     private function removeFixtureFiles(string $directory, Filesystem $fileSystem): void
     {

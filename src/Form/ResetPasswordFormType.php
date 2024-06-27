@@ -16,7 +16,6 @@ class ResetPasswordFormType extends AbstractType
      *
      * @param  FormBuilderInterface $builder
      * @param  array $options
-     * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -44,7 +43,6 @@ class ResetPasswordFormType extends AbstractType
      * configureOptions
      *
      * @param  OptionsResolver $resolver
-     * @return void
      */
     public function configureOptions(OptionsResolver $resolver): void
     {

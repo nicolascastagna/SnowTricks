@@ -7,6 +7,7 @@ use App\Form\TrickFormType;
 use App\Repository\PictureRepository;
 use App\Repository\TrickRepository;
 use App\Service\TrickService;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,7 +33,7 @@ class EditController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $trick->setUpdateDate(new \DateTime());
+            $trick->setUpdateDate(new DateTime());
             $category = $form->get('category')->getData();
             $this->trickService->handleCategory($category, $trick);
             $mainImage = $form->get('mainImage')->getData();

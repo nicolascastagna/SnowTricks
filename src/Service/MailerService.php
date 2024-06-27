@@ -21,9 +21,9 @@ class MailerService extends AbstractController
      * @param  string $subject
      * @param  string $twig
      * @param  array $context
+     *
      * @throws TransportExceptionInterface
      * 
-     * @return void
      */
     public function sendEmail(string $recipientEmail, string $subject, string $twig, array $context): void
     {

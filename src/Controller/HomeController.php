@@ -10,7 +10,6 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class HomeController extends AbstractController
 {
-
     public function __construct(private readonly TrickRepository $trickRepository)
     {
     }
