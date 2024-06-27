@@ -29,10 +29,6 @@ class TrickService
     {
         $category = $categoryData ?? $this->categoryRepository->findOneBy(['name' => 'Autres']);
 
-        if ($category === null) {
-            throw new \Exception('La catégorie "Autres" n\'a pas été trouvée.');
-        }
-
         $trick->setCategory($category);
     }
 

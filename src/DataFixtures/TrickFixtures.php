@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Comment;
 use App\Entity\Picture;
 use App\Entity\Trick;
 use App\Entity\User;
@@ -48,17 +49,15 @@ class TrickFixtures extends Fixture
         ];
 
         $videoUrls = [
-            'https://www.youtube.com/embeb/dQw4w9WgXcQ',
-            'https://www.dailymotion.com/embed/video/x26bs2h',
-            'https://www.dailymotion.com/embed/video/x26bs2h',
-            'https://www.dailymotion.com/embed/video/x26bs2h',
-            'https://www.dailymotion.com/embed/video/x26bs2h',
-            'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-            'https://www.youtube.com/embeb/dQw4w9WgXcQ',
-            'https://www.youtube.com/embeb/dQw4w9WgXcQ',
-            'https://www.youtube.com/embeb/dQw4w9WgXcQ',
-            'https://www.youtube.com/embeb/dQw4w9WgXcQ',
-            'https://www.youtube.com/embeb/dQw4w9WgXcQ',
+            'https://www.youtube.com/embed/dQw4w9WgXcQ',
+            'https://www.dailymotion.com/embed/video/x78ibyx',
+            'https://www.dailymotion.com/embed/video/xc8ep8',
+            'https://www.youtube.com/embed/G_uTyNtR4GM',
+            'https://www.youtube.com/embed/v8jZjyBRLU',
+            'https://www.youtube.com/embed/F79QRalCrQM',
+            'https://www.youtube.com/embed/66FTLRyBwwE',
+            'https://www.youtube.com/embed/okIzkg4fplA',
+            'https://www.youtube.com/embed/RgS3fpYmd6U',
         ];
 
         $categories = [];
@@ -73,7 +72,7 @@ class TrickFixtures extends Fixture
         $adminUser->setUsername('admin')
             ->setEmail('admin@admin.com')
             ->setPassword($this->passwordHasher->hashPassword($adminUser, 'admin1234'))
-            ->setRole(['ROLE_ADMIN'])
+            ->setRoles(['ROLE_ADMIN'])
             ->setVerified(true)
             ->setUserPicture($this->fakeUploadImage('admin.jpeg', $this->userDirectory));
         $manager->persist($adminUser);
@@ -84,7 +83,7 @@ class TrickFixtures extends Fixture
         $userTest->setUsername('utilisateur')
             ->setEmail('user@user.com')
             ->setPassword($this->passwordHasher->hashPassword($userTest, 'user1234'))
-            ->setRole(['ROLE_USER'])
+            ->setRoles(['ROLE_USER'])
             ->setVerified(true)
             ->setUserPicture($this->fakeUploadImage('user.jpeg', $this->userDirectory));
         $manager->persist($userTest);
@@ -96,7 +95,7 @@ class TrickFixtures extends Fixture
             $user->setUsername($faker->userName())
                 ->setEmail($faker->unique()->email())
                 ->setPassword($this->passwordHasher->hashPassword($user, 'password'))
-                ->setRole(['ROLE_USER'])
+                ->setRoles(['ROLE_USER'])
                 ->setVerified(true)
                 ->setUserPicture($this->fakeUploadImage('image' . $i . '.jpeg', $this->userDirectory));
 
@@ -105,7 +104,7 @@ class TrickFixtures extends Fixture
         }
 
         // 15 tricks
-        for ($i = 0; $i < 14; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $trick = new Trick();
             $trick->setName($faker->words(3, true))
                 ->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam ut venenatis tellus in metus vulputate eu scelerisque felis. Ultrices gravida dictum fusce ut placerat. Sit amet facilisis magna etiam tempor orci. Diam phasellus vestibulum lorem sed risus ultricies tristique nulla. Quam adipiscing vitae proin sagittis nisl rhoncus mattis rhoncus urna. Mattis enim ut tellus elementum. Proin gravida hendrerit lectus a. Lacus suspendisse faucibus interdum posuere lorem ipsum dolor sit amet. Varius sit amet mattis vulputate. Convallis convallis tellus id interdum velit laoreet id donec. Mattis enim ut tellus elementum sagittis vitae et. Leo vel fringilla est ullamcorper eget. Feugiat nibh sed pulvinar proin gravida hendrerit lectus. Proin fermentum leo vel orci porta non.')
@@ -125,16 +124,27 @@ class TrickFixtures extends Fixture
                 } while (in_array($randomPicture, $usedPictures));
 
                 $usedPictures[] = $randomPicture;
+                $randomPicture = $faker->randomElement($trickMainImages);
 
                 $picture = new Picture();
                 $picture->setName($this->fakeUploadImage($randomPicture, $this->tricksDirectory));
                 $trick->addPicture($picture);
             }
 
-            for ($j = 0; $j < $faker->numberBetween(1, 2); $j++) {
+            for ($k = 0; $k < $faker->numberBetween(1, 2); $k++) {
                 $video = new Video();
                 $video->setName($faker->randomElement($videoUrls));
                 $trick->addVideo($video);
+            }
+
+            for ($l = 0; $l < 15; ++$l) {
+                $comment = new Comment();
+
+                $comment->setContent($faker->words(10, true))
+                    ->setUser($faker->randomElement($users))
+                    ->setTrick($trick)
+                    ->setCommentDate($faker->dateTimeBetween($trick->getCreationDate(), 'now'));
+                $manager->persist($comment);
             }
 
             $manager->persist($trick);

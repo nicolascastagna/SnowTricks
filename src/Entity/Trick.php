@@ -34,7 +34,7 @@ class Trick
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
     #[ORM\ManyToOne(inversedBy: 'tricks', cascade: ['persist'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Category $category = null;
 
     /**
