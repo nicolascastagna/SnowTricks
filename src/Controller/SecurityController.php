@@ -7,6 +7,7 @@ use App\Form\ResetPasswordRequestFormType;
 use App\Repository\UserRepository;
 use App\Service\MailerService;
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,7 +37,7 @@ class SecurityController extends AbstractController
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        throw new LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
     #[Route('/forgotten-password', name: 'app_forgotten_password')]
@@ -74,10 +75,12 @@ class SecurityController extends AbstractController
                 );
 
                 $this->addFlash('success', 'Email envoyé avec succès.');
+
                 return $this->redirectToRoute('app_login');
             }
             // $user est null
             $this->addFlash('danger', 'Cette adresse e-mail est inconnue.');
+
             return $this->redirectToRoute('app_forgotten_password');
         }
 
@@ -122,6 +125,7 @@ class SecurityController extends AbstractController
         }
         // token est null
         $this->addFlash('error', 'Jeton invalide');
+
         return $this->redirectToRoute('app_login');
     }
 }

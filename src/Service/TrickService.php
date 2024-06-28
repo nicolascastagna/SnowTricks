@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use App\Entity\Trick;
 use App\Entity\Picture;
+use App\Entity\Trick;
 use App\Repository\CategoryRepository;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -23,15 +23,10 @@ class TrickService
      *
      * @param mixed $categoryData
      * @param Trick $trick
-     * @return void
      */
-    public function handleCategory($categoryData, Trick $trick): void
+    public function handleCategory(mixed $categoryData, Trick $trick): void
     {
         $category = $categoryData ?? $this->categoryRepository->findOneBy(['name' => 'Autres']);
-
-        if ($category === null) {
-            throw new \Exception('La catégorie "Autres" n\'a pas été trouvée.');
-        }
 
         $trick->setCategory($category);
     }
@@ -40,9 +35,8 @@ class TrickService
      * Handles the main image for a trick
      *
      * @param UploadedFile|null $mainImage
-     * @param array $images
      * @param Trick $trick
-     * @return void
+     * @param array $images
      */
     public function handleMainImage(?UploadedFile $mainImage, Trick $trick): void
     {
@@ -59,7 +53,6 @@ class TrickService
      *
      * @param array $images
      * @param Trick $trick
-     * @return void
      */
     public function handleImages(array $images, Trick $trick): void
     {
@@ -76,9 +69,8 @@ class TrickService
     /**
      * Handles additional videos for a trick
      *
-     * @param array $videos
      * @param Trick $trick
-     * @return void
+     * @param array $videos
      */
     public function handleVideos(Trick $trick, FormInterface $form): void
     {
@@ -96,6 +88,7 @@ class TrickService
      * Generate embed code for YouTube or Dailymotion URL
      *
      * @param string $url
+     *
      * @return string|null
      */
     private function generateEmbedCode(string $url): ?string
@@ -105,6 +98,7 @@ class TrickService
         } elseif (strpos($url, 'dailymotion.com') !== false) {
             return $this->getDailymotionEmbedCode($url);
         }
+
         return null;
     }
 
@@ -112,11 +106,13 @@ class TrickService
      * getYouTubeEmbedCode
      *
      * @param  string $url
+     *
      * @return string
      */
     private function getYouTubeEmbedCode(string $url): string
     {
         preg_match('/(youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))([^?&"\'<>]+)/', $url, $matches);
+
         return $matches ? 'https://www.youtube.com/embed/' . $matches[5] : '';
     }
 
@@ -124,11 +120,13 @@ class TrickService
      * getDailymotionEmbedCode
      *
      * @param  string $url
+     *
      * @return string
      */
     private function getDailymotionEmbedCode(string $url): string
     {
         preg_match('/(dailymotion\.com\/(video|hub)\/([^_]+))/', $url, $matches);
+
         return $matches ? 'https://www.dailymotion.com/embed/video/' . $matches[3] : '';
     }
 
@@ -136,6 +134,7 @@ class TrickService
      * Uploads an image and returns the new file name
      *
      * @param UploadedFile $image   
+     *
      * @return string
      */
     private function uploadImage(UploadedFile $image): string

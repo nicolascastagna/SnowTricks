@@ -143,7 +143,7 @@ class User implements
         return array_unique($roles);
     }
 
-    public function setRole(array $roles): static
+    public function setRoles(array $roles): static
     {
         $this->roles = $roles;
 
@@ -152,7 +152,7 @@ class User implements
 
     public function isAdmin()
     {
-        return in_array('ROLE_ADMIN', $this->getRoles());
+        return in_array('ROLE_ADMIN', $this->getRoles(), true);
     }
 
     /**

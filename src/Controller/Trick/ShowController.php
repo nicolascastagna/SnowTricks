@@ -7,6 +7,7 @@ use App\Entity\Trick;
 use App\Form\CommentFormType;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,7 +50,7 @@ class ShowController extends AbstractController
         if ($commentForm->isSubmitted() && $commentForm->isValid()) {
             $comment->setTrick($trick);
             $comment->setUser($this->getUser());
-            $comment->setCommentDate(new \DateTime());
+            $comment->setCommentDate(new DateTime());
 
             $this->entityManager->persist($comment);
             $this->entityManager->flush();

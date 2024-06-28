@@ -299,6 +299,7 @@ nav a:hover:before {
 .trick-media-detail img {
     width: 100%;
     height: auto;
+    max-height: 1000px;
     display: block;
 }
 
@@ -381,6 +382,7 @@ nav a:hover:before {
 .list-pictures iframe {
     min-width: 370px;
     min-height: 275px;
+    max-height: 350px;
 }
 
 #seeMedia,
@@ -614,14 +616,15 @@ nav a:hover:before {
 }
 
 .card-left {
-    max-width: 80px;
-    min-width: 80px;
     margin-right: 20px;
     margin-top: 20px;
 }
 
 .card-left img {
     border-radius: 10px;
+    width: 70px;
+    height: 70px;
+    object-fit: fill;
 }
 
 .card-right {
@@ -707,6 +710,7 @@ footer {
 }
 
 .scroll-up-arrow {
+    display: none;
     position: fixed;
     bottom: 100px;
     right: 80px;

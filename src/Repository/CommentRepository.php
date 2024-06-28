@@ -25,6 +25,7 @@ class CommentRepository extends ServiceEntityRepository
      * @param int $trickId
      * @param int $page
      * @param int $limit
+     *
      * @return Comment[]
      */
     public function findPaginatedComments(int $trickId, int $page, int $limit): array
@@ -43,6 +44,7 @@ class CommentRepository extends ServiceEntityRepository
 
     /**
      * @param int $trickId
+     *
      * @return int
      */
     public function countComments(int $trickId): int

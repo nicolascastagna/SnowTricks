@@ -29,6 +29,7 @@ class DeleteController extends AbstractController
             $image = $this->pictureRepository->findOneBy(['name' => $imageName]);
             if (!$image) {
                 $this->addFlash('error', 'Image non trouvée.');
+
                 return $this->redirectToRoute('app_trick_edit', ['id' => $trick->getId()]);
             }
             $this->deleteImage($image->getName());
@@ -45,6 +46,7 @@ class DeleteController extends AbstractController
                     if ($picture->getName() === $trick->getMainImage()) {
                         $trick->removePicture($picture);
                         $this->entityManager->remove($picture);
+
                         break;
                     }
                 }
