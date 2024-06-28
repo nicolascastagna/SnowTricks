@@ -616,14 +616,15 @@ nav a:hover:before {
 }
 
 .card-left {
-    max-width: 80px;
-    min-width: 80px;
     margin-right: 20px;
     margin-top: 20px;
 }
 
 .card-left img {
     border-radius: 10px;
+    width: 70px;
+    height: 70px;
+    object-fit: fill;
 }
 
 .card-right {

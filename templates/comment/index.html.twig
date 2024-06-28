@@ -4,7 +4,7 @@
 			{% for comment in comments %}
 				<div class="card-comment">
 					<div class="card-left">
-						<img src="{{ asset('/assets/profile/'~ user.userPicture|default('user_default.png')) }}" alt="Photo de {{ user.username }}" class="photo-profile">
+						<img src="{{ asset('/assets/profile/'~ comment.user.userPicture|default('user_default.png')) }}" alt="Photo de {{ user.username }}" class="photo-profile">
 					</div>
 					<div class="card-right">
 						<h4>{{ comment.user.username }}</h4>
