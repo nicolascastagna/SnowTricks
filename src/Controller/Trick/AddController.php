@@ -54,6 +54,10 @@ class AddController extends AbstractController
                 $this->trickService->handleImages($images, $trick);
             }
 
+            if ($trick->getMainImage() === 'image-placeholder.jpg' && !$trick->getPictures()->isEmpty()) {
+                $trick->setMainImage($trick->getPictures()->first()->getName());
+            }
+
             $this->trickService->handleVideos($trick, $form);
 
             $this->entityManager->persist($trick);
